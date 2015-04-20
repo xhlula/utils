@@ -1,0 +1,20 @@
+{
+    "name": "maldoinc/utils",
+    "description": "Generic utilities for application development",
+    "require-dev": {
+        "phpunit/phpunit": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aldo Mateli",
+            "email": "aldo.mateli@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "maldoinc\\": "src/maldoinc"
+        }
+    }
+}

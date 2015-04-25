@@ -11,25 +11,30 @@ namespace maldoinc\utils\shopping;
  * @property float price_unit
  * @property array data
  */
-class ShoppingCartItem implements \Serializable{
+class ShoppingCartItem implements \Serializable
+{
     public $attr = array();
 
-    public function __construct($identifier, $quantity, $price_unit, $data){
-        $this->attr['identifier']   = $identifier;
-        $this->attr['quantity']     = $quantity;
-        $this->attr['price_unit']   = $price_unit;
-        $this->attr['data']         = $data;
+    public function __construct($identifier, $quantity, $price_unit, $data)
+    {
+        $this->attr['identifier'] = $identifier;
+        $this->attr['quantity'] = $quantity;
+        $this->attr['price_unit'] = $price_unit;
+        $this->attr['data'] = $data;
     }
 
-    public function __get($name){
+    public function __get($name)
+    {
         return $this->attr[$name];
     }
 
-    public function __set($name, $val){
+    public function __set($name, $val)
+    {
         $this->attr[$name] = $val;
     }
 
-    public function __isset($name){
+    public function __isset($name)
+    {
         return isset($this->attr[$name]);
     }
 
@@ -39,7 +44,8 @@ class ShoppingCartItem implements \Serializable{
      * @link http://php.net/manual/en/serializable.serialize.php
      * @return string the string representation of the object or null
      */
-    public function serialize() {
+    public function serialize()
+    {
         return serialize($this->attr);
     }
 
@@ -52,7 +58,8 @@ class ShoppingCartItem implements \Serializable{
      * </p>
      * @return void
      */
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
         $this->attr = unserialize($serialized);
     }
 }

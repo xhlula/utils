@@ -3,6 +3,7 @@
         <testsuite name="tests">
             <file>tests/utils/PaginationTest.php</file>
             <file>tests/utils/shopping/ShoppingCartTests.php</file>
+            <file>tests/utils/shopping/PersistentShoppingCartTests.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

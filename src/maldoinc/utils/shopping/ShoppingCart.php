@@ -2,7 +2,7 @@
 
 namespace maldoinc\utils\shopping;
 
-class ShoppingCart
+class ShoppingCart implements \Countable
 {
     /* @var $items ShoppingCartItem[] */
     protected $items = array();
@@ -104,5 +104,19 @@ class ShoppingCart
     public function removeItemAt($index)
     {
         array_splice($this->items, $index, 1);
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Count elements of an object
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int The custom count as an integer.
+     * </p>
+     * <p>
+     * The return value is cast to an integer.
+     */
+    public function count()
+    {
+        return $this->getCount();
     }
 }

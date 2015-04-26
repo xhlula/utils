@@ -5,6 +5,7 @@ use maldoinc\utils\shopping\exceptions\InvalidPropertyException;
 use maldoinc\utils\shopping\exceptions\InvalidQuantityException;
 use maldoinc\utils\shopping\Cart;
 use maldoinc\utils\shopping\CartItem;
+use maldoinc\utils\shopping\exceptions\ItemNotFoundException;
 
 class ShoppingCartTests extends PHPUnit_Framework_TestCase
 {
@@ -121,6 +122,13 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
 
         $this->cart->update('A', -1);
         $this->assertEquals(1, $this->cart->count());
+
+        try {
+            $this->cart->update('OOPS', 1234);
+            $this->fail('Should throw exception');
+        } catch(ItemNotFoundException $e) {
+            $this->assertEquals(true, true);
+        }
     }
 
     public function testQuantity()

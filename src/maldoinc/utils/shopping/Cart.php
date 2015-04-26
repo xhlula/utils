@@ -208,7 +208,6 @@ class Cart implements \Countable
         array_splice($this->items, $index, 1);
     }
 
-
     /**
      * @param $index
      * @throws exceptions\InvalidIndexException

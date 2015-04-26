@@ -125,7 +125,7 @@ class Cart implements \Countable
         }
 
         if ($qty <= 0) {
-            $this->removeItemAt($identifier);
+            $this->removeItemAt($idx);
 
             return;
         }

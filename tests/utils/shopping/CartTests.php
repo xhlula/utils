@@ -108,6 +108,9 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
 
         $item = $this->cart->get('A');
         $this->assertEquals('y', $item->data['x']);
+
+        $this->cart->update('A', -1);
+        $this->assertEquals(1, $this->cart->count());
     }
 
     public function testQuantity()

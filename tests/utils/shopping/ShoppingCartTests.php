@@ -109,6 +109,20 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testUpdate()
+    {
+        $this->cart->clear();
+        $this->cart->add('A', array(), 1, 1);
+        $this->cart->add('B', array(), 3, 1);
+
+        $this->cart->update('A', 3, array('x' => 'y'));
+
+        $this->assertEquals(6, $this->cart->getTotal());
+
+        $item = $this->cart->get('A');
+        $this->assertEquals('y', $item->data['x']);
+    }
+
     public function testQuantity()
     {
         $this->cart->clear();

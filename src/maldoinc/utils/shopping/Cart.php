@@ -30,6 +30,26 @@ class Cart implements \Countable
         $this->items = $items;
     }
 
+    public function update($identifier, $qty, $data = null)
+    {
+        $idx = $this->indexOf($identifier);
+
+        if ($idx === -1) {
+            return;
+        }
+
+        if ($qty == 0) {
+            $this->removeItemAt($identifier);
+
+            return;
+        }
+
+        $this->items[$idx]->quantity = $qty;
+        if ($data !== null) {
+            $this->items[$idx]->data = $data;
+        }
+    }
+
     /**
      * @param $index
      * @throws InvalidIndexException

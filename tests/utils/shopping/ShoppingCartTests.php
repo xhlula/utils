@@ -1,6 +1,9 @@
 <?php
 
+use maldoinc\utils\shopping\InvalidPropertyException;
+use maldoinc\utils\shopping\InvalidQuantityException;
 use maldoinc\utils\shopping\ShoppingCart;
+use maldoinc\utils\shopping\ShoppingCartItem;
 
 class ShoppingCartTests extends PHPUnit_Framework_TestCase
 {
@@ -42,6 +45,39 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->cart->indexOf('XXYZ'), 1);
         $this->assertEquals($this->cart->indexOf('ITEMCODE'), 2);
         $this->assertEquals($this->cart->indexOf(101), 0);
+    }
+
+    public function testInvalidProperty()
+    {
+        $this->cart->clear();
+        $this->cart->add('X', [], 1, 1);
+
+        $item = $this->cart->getItemAt(0);
+        try {
+            $item->x = 'y';
+
+            $this->fail('Invalid property. Should fail');
+        } catch (InvalidPropertyException $e) {
+            $this->assertEquals(true, true);
+        }
+    }
+
+    public function testQuantity()
+    {
+        $this->cart->clear();
+
+        $this->cart->add('A', array(), 3.14, 1);
+
+        /** @var ShoppingCartItem $item */
+        $item = $this->cart->getItemAt(0);
+        try {
+            $item->quantity = -1;
+
+            $this->fail('Quantity should not be negative');
+        } catch (InvalidQuantityException $e) {
+            // should probably have a pass method
+            $this->assertEquals(true, true);
+        }
     }
 
     public function testRemove()

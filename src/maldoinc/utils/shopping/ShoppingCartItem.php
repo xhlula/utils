@@ -23,13 +23,33 @@ class ShoppingCartItem implements \Serializable
         $this->attr['data'] = $data;
     }
 
+    protected function hasProp($name)
+    {
+        return array_key_exists($name, $this->attr);
+    }
+
+    protected function checkProp($name)
+    {
+        if (!$this->hasProp($name)) {
+            throw new InvalidPropertyException(sprintf("Invalid property: %s on class %s", $name, __CLASS__));
+        }
+    }
+
     public function __get($name)
     {
+        $this->checkProp($name);
+
         return $this->attr[$name];
     }
 
     public function __set($name, $val)
     {
+        $this->checkProp($name);
+
+        if ($name === 'quantity' && (float)$val < 0) {
+            throw new InvalidQuantityException("Quantity cannot be negative");
+        }
+
         $this->attr[$name] = $val;
     }
 

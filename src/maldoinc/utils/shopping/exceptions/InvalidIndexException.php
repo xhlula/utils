@@ -1,6 +1,6 @@
 <?php
 
-namespace maldoinc\utils\shopping;
+namespace maldoinc\utils\shopping\exceptions;
 
 class InvalidIndexException extends \Exception
 {

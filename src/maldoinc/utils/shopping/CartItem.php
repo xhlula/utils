@@ -42,7 +42,7 @@ class CartItem implements \Serializable
     protected function checkProp($name)
     {
         if (!$this->hasProp($name)) {
-            throw new InvalidPropertyException(sprintf("Invalid property: %s on class %s", $name, __CLASS__));
+            throw new exceptions\InvalidPropertyException(sprintf("Invalid property: %s on class %s", $name, __CLASS__));
         }
     }
 
@@ -58,7 +58,7 @@ class CartItem implements \Serializable
         $this->checkProp($name);
 
         if ($name === 'quantity' && (float)$val <= 0) {
-            throw new InvalidQuantityException(sprintf("Invalid quantity: %.2f", $val));
+            throw new exceptions\InvalidQuantityException(sprintf("Invalid quantity: %.2f", $val));
         }
 
         $this->attr[$name] = $val;

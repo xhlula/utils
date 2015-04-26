@@ -1,6 +1,6 @@
 <?php
 
-use maldoinc\utils\shopping\FilePersistenceStrategy;
+use maldoinc\utils\shopping\persistence\FilePersistenceStrategy;
 use maldoinc\utils\shopping\Cart;
 
 class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase

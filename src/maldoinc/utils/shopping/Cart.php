@@ -2,6 +2,8 @@
 
 namespace maldoinc\utils\shopping;
 
+use maldoinc\utils\shopping\persistence\CartPersistentInterface;
+
 class Cart implements \Countable
 {
     /* @var $items CartItem[] */
@@ -155,14 +157,14 @@ class Cart implements \Countable
      * @param $identifier
      * @param $qty
      * @param array $data
-     * @throws ItemNotFoundException
+     * @throws exceptions\ItemNotFoundException
      */
     public function update($identifier, $qty, $data = null)
     {
         $idx = $this->indexOf($identifier);
 
         if ($idx === -1) {
-            throw new ItemNotFoundException(sprintf("Item with identifier '%s' not found", $identifier));
+            throw new exceptions\ItemNotFoundException(sprintf("Item with identifier '%s' not found", $identifier));
         }
 
         if ($qty <= 0) {
@@ -209,7 +211,7 @@ class Cart implements \Countable
 
     /**
      * @param $index
-     * @throws InvalidIndexException
+     * @throws exceptions\InvalidIndexException
      * @return CartItem
      */
     protected function getItemAt($index)
@@ -217,7 +219,7 @@ class Cart implements \Countable
         if (array_key_exists($index, $this->items)) {
             return $this->items[$index];
         } else {
-            throw new InvalidIndexException("Item cannot be found");
+            throw new exceptions\InvalidIndexException("Item cannot be found");
         }
     }
 }

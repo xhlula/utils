@@ -1,8 +1,8 @@
 <?php
 
-use maldoinc\utils\shopping\InvalidIndexException;
-use maldoinc\utils\shopping\InvalidPropertyException;
-use maldoinc\utils\shopping\InvalidQuantityException;
+use maldoinc\utils\shopping\exceptions\InvalidIndexException;
+use maldoinc\utils\shopping\exceptions\InvalidPropertyException;
+use maldoinc\utils\shopping\exceptions\InvalidQuantityException;
 use maldoinc\utils\shopping\Cart;
 use maldoinc\utils\shopping\CartItem;
 

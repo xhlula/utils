@@ -7,12 +7,53 @@ class Cart implements \Countable
     /* @var $items CartItem[] */
     protected $items = array();
 
+    /** @var CartPersistentInterface */
+    protected $intf = null;
+
+    /**
+     * @param CartPersistentInterface $intf
+     */
+    public function __construct(CartPersistentInterface $intf = null)
+    {
+        $this->intf = $intf;
+
+        if ($this->intf !== null) {
+            $this->load();
+        }
+    }
+
+    /**
+     * Save the shopping cart data
+     */
+    public function save()
+    {
+        $this->intf->save(serialize($this->items));
+    }
+
+    /**
+     * Load shopping cart data.
+     *
+     * Overwrites any existing items the cart might have
+     */
+    public function load()
+    {
+        $items = $this->intf->load();
+
+        if ($items !== null) {
+            $this->setItems(unserialize($items));
+        }
+    }
+
     /**
      * Clears the shopping cart
      */
     public function clear()
     {
         $this->items = array();
+
+        if ($this->intf !== null) {
+            $this->intf->clear();
+        }
     }
 
     /**

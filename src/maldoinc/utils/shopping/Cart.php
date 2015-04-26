@@ -3,6 +3,7 @@
 namespace maldoinc\utils\shopping;
 
 use maldoinc\utils\shopping\persistence\CartPersistentInterface;
+use maldoinc\utils\shopping\persistence\NullPersistenceStrategy;
 
 class Cart implements \Countable
 {
@@ -17,11 +18,13 @@ class Cart implements \Countable
      */
     public function __construct(CartPersistentInterface $intf = null)
     {
-        $this->intf = $intf;
-
-        if ($this->intf !== null) {
-            $this->load();
+        if ($intf === null) {
+            $this->intf = new NullPersistenceStrategy();
+        } else {
+            $this->intf = $intf;
         }
+
+        $this->load();
     }
 
     /**
@@ -52,10 +55,7 @@ class Cart implements \Countable
     public function clear()
     {
         $this->items = array();
-
-        if ($this->intf !== null) {
-            $this->intf->clear();
-        }
+        $this->intf->clear();
     }
 
     /**

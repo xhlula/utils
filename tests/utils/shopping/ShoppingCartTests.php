@@ -35,6 +35,12 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->cart->getTotal(), 300);
     }
 
+    public function testIsEmpty()
+    {
+        $this->cart->clear();
+        $this->assertEquals(true, $this->cart->isEmpty());
+    }
+
     public function testIndexOf()
     {
         $this->cart->clear();

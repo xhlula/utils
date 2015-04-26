@@ -12,6 +12,11 @@ class Cart implements \Countable
         $this->items = array();
     }
 
+    public function isEmpty()
+    {
+        return $this->count() === 0;
+    }
+
     /**
      * @return CartItem[]
      */

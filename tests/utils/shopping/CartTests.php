@@ -96,6 +96,16 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testAddInvalidQty()
+    {
+        try {
+            $this->cart->add('X', array(), 1, -1);
+            $this->fail('Should throw exception');
+        } catch(InvalidQuantityException $e) {
+            $this->assertEquals(true, true);
+        }
+    }
+
     public function testUpdate()
     {
         $this->cart->clear();

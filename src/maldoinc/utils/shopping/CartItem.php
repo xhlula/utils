@@ -13,14 +13,25 @@ namespace maldoinc\utils\shopping;
  */
 class CartItem implements \Serializable
 {
-    public $attr = array();
+    public $attr = array(
+        'identifier' => null,
+        'quantity' => null,
+        'price' => null,
+        'data' => null
+    );
 
-    public function __construct($identifier, $quantity, $price_unit, $data)
+    /**
+     * @param $identifier
+     * @param $quantity
+     * @param $price
+     * @param $data
+     */
+    public function __construct($identifier, $quantity, $price, $data)
     {
-        $this->attr['identifier'] = $identifier;
-        $this->attr['quantity'] = $quantity;
-        $this->attr['price'] = $price_unit;
-        $this->attr['data'] = $data;
+        $this->identifier = $identifier;
+        $this->quantity = $quantity;
+        $this->price = $price;
+        $this->data = $data;
     }
 
     protected function hasProp($name)
@@ -47,7 +58,7 @@ class CartItem implements \Serializable
         $this->checkProp($name);
 
         if ($name === 'quantity' && (float)$val <= 0) {
-            throw new InvalidQuantityException(sprintf("Invalid quantity: %f", $val));
+            throw new InvalidQuantityException(sprintf("Invalid quantity: %.2f", $val));
         }
 
         $this->attr[$name] = $val;

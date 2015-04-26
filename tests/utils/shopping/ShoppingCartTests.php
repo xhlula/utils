@@ -2,22 +2,22 @@
 
 use maldoinc\utils\shopping\InvalidPropertyException;
 use maldoinc\utils\shopping\InvalidQuantityException;
-use maldoinc\utils\shopping\ShoppingCart;
-use maldoinc\utils\shopping\ShoppingCartItem;
+use maldoinc\utils\shopping\Cart;
+use maldoinc\utils\shopping\CartItem;
 
 class ShoppingCartTests extends PHPUnit_Framework_TestCase
 {
-    /** @var ShoppingCart */
+    /** @var Cart */
     protected $cart;
 
     protected function setUp()
     {
-        $this->cart = new ShoppingCart();
+        $this->cart = new Cart();
     }
 
     public function testClear()
     {
-        $cart = new ShoppingCart();
+        $cart = new Cart();
         $cart->clear();
 
         $this->assertEquals(0, $cart->getCount());
@@ -87,7 +87,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
 
         $this->cart->add('A', array(), 3.14, 1);
 
-        /** @var ShoppingCartItem $item */
+        /** @var CartItem $item */
         $item = $this->cart->getItemAt(0);
         try {
             $item->quantity = -1;

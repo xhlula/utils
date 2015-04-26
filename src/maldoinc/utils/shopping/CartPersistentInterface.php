@@ -8,7 +8,7 @@ namespace maldoinc\utils\shopping;
  * Interface ShoppingCartPersistentInterface
  * @package maldoinc\utils\shopping
  */
-interface ShoppingCartPersistentInterface
+interface CartPersistentInterface
 {
     /**
      *
@@ -23,6 +23,8 @@ interface ShoppingCartPersistentInterface
     function load();
 
     /**
+     * Destroy all data
+     *
      * @return void
      */
     function clear();

@@ -2,9 +2,9 @@
 
 namespace maldoinc\utils\shopping;
 
-class ShoppingCart implements \Countable
+class Cart implements \Countable
 {
-    /* @var $items ShoppingCartItem[] */
+    /* @var $items CartItem[] */
     protected $items = array();
 
     public function getCount()
@@ -18,7 +18,7 @@ class ShoppingCart implements \Countable
     }
 
     /**
-     * @return ShoppingCartItem[]
+     * @return CartItem[]
      */
     public function getItems()
     {
@@ -32,7 +32,7 @@ class ShoppingCart implements \Countable
 
     /**
      * @param $index
-     * @return ShoppingCartItem
+     * @return CartItem
      */
     public function &getItemAt($index)
     {
@@ -61,7 +61,7 @@ class ShoppingCart implements \Countable
     function getTotal()
     {
         return array_reduce($this->items, function ($carry, $item) {
-            /** @var $item ShoppingCartItem */
+            /** @var $item CartItem */
             return $carry + $item->price_unit * $item->quantity;
         });
     }
@@ -80,7 +80,7 @@ class ShoppingCart implements \Countable
 
         // In case item is not found, add it. Else update quantity
         if ($index == -1) {
-            $this->items[] = new ShoppingCartItem($identifier, $qty, $price, $data);
+            $this->items[] = new CartItem($identifier, $qty, $price, $data);
         } else {
             $this->items[$index]->quantity += $qty;
         }

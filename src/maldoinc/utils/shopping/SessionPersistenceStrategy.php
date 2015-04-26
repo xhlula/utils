@@ -2,7 +2,7 @@
 
 namespace maldoinc\utils\shopping;
 
-class SessionPersistenceStrategy implements ShoppingCartPersistentInterface
+class SessionPersistenceStrategy implements CartPersistentInterface
 {
     protected $key;
 

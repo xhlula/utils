@@ -11,7 +11,7 @@ namespace maldoinc\utils\shopping;
  * @property float price_unit
  * @property array data
  */
-class ShoppingCartItem implements \Serializable
+class CartItem implements \Serializable
 {
     public $attr = array();
 

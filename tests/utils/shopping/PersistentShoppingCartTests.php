@@ -1,7 +1,7 @@
 <?php
 
 use maldoinc\utils\shopping\FilePersistenceStrategy;
-use maldoinc\utils\shopping\PersistentShoppingCart;
+use maldoinc\utils\shopping\PersistentCart;
 
 class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
 {
@@ -10,16 +10,16 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
         $factory = function ()  {
             $f = __DIR__ . DIRECTORY_SEPARATOR . 'shopping_cart_test';
 
-            return new PersistentShoppingCart(new FilePersistenceStrategy($f));
+            return new PersistentCart(new FilePersistenceStrategy($f));
         };
 
         try {
-            /** @var PersistentShoppingCart $a */
+            /** @var PersistentCart $a */
             $a = $factory();
             $a->add('A', [], 1, 2);
             $a->save();
 
-            /** @var PersistentShoppingCart $b */
+            /** @var PersistentCart $b */
             $b = $factory();
             $this->assertEquals($a->getCount(), $b->getCount());
             $this->assertEquals($a->getTotal(), $b->getTotal());

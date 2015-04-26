@@ -8,12 +8,12 @@ namespace maldoinc\utils\shopping;
  * Class PersistentShoppingCart
  * @package maldoinc\utils\shopping
  */
-class PersistentShoppingCart extends ShoppingCart
+class PersistentCart extends Cart
 {
-    /** @var ShoppingCartPersistentInterface */
+    /** @var CartPersistentInterface */
     protected $intf;
 
-    public function __construct(ShoppingCartPersistentInterface $intf)
+    public function __construct(CartPersistentInterface $intf)
     {
         $this->intf = $intf;
         $this->load();

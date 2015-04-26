@@ -2,7 +2,7 @@
 
 namespace maldoinc\utils\shopping;
 
-class FilePersistenceStrategy implements ShoppingCartPersistentInterface
+class FilePersistenceStrategy implements CartPersistentInterface
 {
     protected $filename;
 

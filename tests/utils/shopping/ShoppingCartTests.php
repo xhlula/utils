@@ -53,13 +53,32 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->cart->add('X', [], 1, 1);
 
         $item = $this->cart->getItemAt(0);
+
+        $this->assertEquals(false, isset($item->nonExistingProperty));
+
         try {
-            $item->x = 'y';
+            $item->shouldThrowException = 'y';
 
             $this->fail('Invalid property. Should fail');
         } catch (InvalidPropertyException $e) {
             $this->assertEquals(true, true);
         }
+    }
+
+    public function testCountable()
+    {
+        $this->cart->clear();
+
+        $this->assertEquals(0, count($this->cart));
+    }
+
+    public function testGetItems()
+    {
+        $this->cart->clear();
+
+        $this->cart->add('A', array(), 3.14, 1);
+        $items = $this->cart->getItems();
+        $this->assertEquals('A', $items[0]->identifier);
     }
 
     public function testQuantity()

@@ -215,10 +215,10 @@ class Cart implements \Countable
      */
     protected function getItemAt($index)
     {
-        if (array_key_exists($index, $this->items)) {
-            return $this->items[$index];
-        } else {
+        if (!array_key_exists($index, $this->items)) {
             throw new exceptions\InvalidIndexException("Item cannot be found");
         }
+
+        return $this->items[$index];
     }
 }

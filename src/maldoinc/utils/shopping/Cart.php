@@ -7,11 +7,19 @@ class Cart implements \Countable
     /* @var $items CartItem[] */
     protected $items = array();
 
+    /**
+     * Clears the shopping cart
+     */
     public function clear()
     {
         $this->items = array();
     }
 
+    /**
+     * Determines whether the shopping cart is empty or not
+     *
+     * @return bool
+     */
     public function isEmpty()
     {
         return $this->count() === 0;
@@ -19,12 +27,9 @@ class Cart implements \Countable
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
-     * Count elements of an object
+     * Counts the items of the shopping cart
      * @link http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
+     * @return int
      */
     public function count()
     {
@@ -43,6 +48,8 @@ class Cart implements \Countable
     }
 
     /**
+     * Returns a copy of the shopping cart items
+     *
      * @return CartItem[]
      */
     public function getItems()
@@ -50,11 +57,19 @@ class Cart implements \Countable
         return $this->items;
     }
 
+    /**
+     * Set the items of the shopping cart
+     *
+     * @param CartItem[] $items
+     */
     public function setItems($items)
     {
         $this->items = $items;
     }
 
+    /**
+     * @return float
+     */
     public function getTotal()
     {
         return array_reduce($this->items, function ($carry, $item) {
@@ -64,7 +79,7 @@ class Cart implements \Countable
     }
 
     /**
-     * Adds/updates a product in the shopping cart
+     * Adds or updates a product in the shopping cart
      *
      * @param mixed $identifier
      * @param array $data
@@ -93,6 +108,13 @@ class Cart implements \Countable
         $this->removeItemAt($this->indexOf($identifier));
     }
 
+    /**
+     * Updates an item
+     *
+     * @param $identifier
+     * @param $qty
+     * @param array $data
+     */
     public function update($identifier, $qty, $data = null)
     {
         $idx = $this->indexOf($identifier);

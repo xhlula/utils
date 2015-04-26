@@ -121,7 +121,7 @@ class Cart implements \Countable
         $idx = $this->indexOf($identifier);
 
         if ($idx === -1) {
-            throw new ItemNotFoundException(sprintf("Item with identifier '%s' not found"));
+            throw new ItemNotFoundException(sprintf("Item with identifier '%s' not found", $identifier));
         }
 
         if ($qty <= 0) {

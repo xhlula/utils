@@ -97,7 +97,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
 
         $item = $this->cart->get('A');
 
-        $this->assertEquals(3.14, $item->price_unit, '', 0.001);
+        $this->assertEquals(3.14, $item->price, '', 0.001);
 
         try {
             // attempt to access an unknown item

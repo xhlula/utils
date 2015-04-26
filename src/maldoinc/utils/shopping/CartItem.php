@@ -8,7 +8,7 @@ namespace maldoinc\utils\shopping;
  *
  * @property string identifier
  * @property float quantity
- * @property float price_unit
+ * @property float price
  * @property array data
  */
 class CartItem implements \Serializable
@@ -19,7 +19,7 @@ class CartItem implements \Serializable
     {
         $this->attr['identifier'] = $identifier;
         $this->attr['quantity'] = $quantity;
-        $this->attr['price_unit'] = $price_unit;
+        $this->attr['price'] = $price_unit;
         $this->attr['data'] = $data;
     }
 

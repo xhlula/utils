@@ -78,7 +78,7 @@ class Cart implements \Countable
     {
         return array_reduce($this->items, function ($carry, $item) {
             /** @var $item CartItem */
-            return $carry + $item->price_unit * $item->quantity;
+            return $carry + $item->price * $item->quantity;
         });
     }
 

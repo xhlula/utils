@@ -7,11 +7,6 @@ class Cart implements \Countable
     /* @var $items CartItem[] */
     protected $items = array();
 
-    public function getCount()
-    {
-        return count($this->items);
-    }
-
     public function clear()
     {
         $this->items = array();
@@ -133,6 +128,6 @@ class Cart implements \Countable
      */
     public function count()
     {
-        return $this->getCount();
+        return count($this->items);
     }
 }

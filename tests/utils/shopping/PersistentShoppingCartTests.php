@@ -21,7 +21,7 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
 
             /** @var PersistentCart $b */
             $b = $factory();
-            $this->assertEquals($a->getCount(), $b->getCount());
+            $this->assertEquals($a->count(), $b->count());
             $this->assertEquals($a->getTotal(), $b->getTotal());
         } finally {
             $a->clear();

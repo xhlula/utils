@@ -21,7 +21,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $cart = new Cart();
         $cart->clear();
 
-        $this->assertEquals(0, $cart->getCount());
+        $this->assertEquals(0, count($cart));
     }
 
     public function testTotal()
@@ -130,7 +130,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->cart->add('ITEMCODE', array(), 100, 1.5);
 
         $this->cart->remove('XXYZ');
-        $this->assertEquals($this->cart->getCount(), 2);
+        $this->assertEquals($this->cart->count(), 2);
         $this->assertEquals($this->cart->indexOf('ITEMCODE'), 1);
 
     }

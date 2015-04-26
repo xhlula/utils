@@ -36,20 +36,6 @@ class Cart implements \Countable
     }
 
     /**
-     * Load shopping cart data.
-     *
-     * Overwrites any existing items the cart might have
-     */
-    public function load()
-    {
-        $items = $this->intf->load();
-
-        if ($items !== null) {
-            $this->setItems(unserialize($items));
-        }
-    }
-
-    /**
      * Clears the shopping cart
      */
     public function clear()
@@ -98,16 +84,6 @@ class Cart implements \Countable
     public function getItems()
     {
         return $this->items;
-    }
-
-    /**
-     * Set the items of the shopping cart
-     *
-     * @param CartItem[] $items
-     */
-    public function setItems($items)
-    {
-        $this->items = $items;
     }
 
     /**
@@ -176,6 +152,20 @@ class Cart implements \Countable
         $this->items[$idx]->quantity = $qty;
         if ($data !== null) {
             $this->items[$idx]->data = $data;
+        }
+    }
+
+    /**
+     * Load shopping cart data.
+     *
+     * Overwrites any existing items the cart might have
+     */
+    protected function load()
+    {
+        $data = $this->intf->load();
+
+        if ($data !== null) {
+            $this->items = unserialize($data);
         }
     }
 

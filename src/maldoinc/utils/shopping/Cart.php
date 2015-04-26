@@ -114,16 +114,17 @@ class Cart implements \Countable
      * @param $identifier
      * @param $qty
      * @param array $data
+     * @throws ItemNotFoundException
      */
     public function update($identifier, $qty, $data = null)
     {
         $idx = $this->indexOf($identifier);
 
         if ($idx === -1) {
-            return;
+            throw new ItemNotFoundException(sprintf("Item with identifier '%s' not found"));
         }
 
-        if ($qty == 0) {
+        if ($qty <= 0) {
             $this->removeItemAt($identifier);
 
             return;

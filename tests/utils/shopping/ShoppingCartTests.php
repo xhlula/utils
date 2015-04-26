@@ -41,25 +41,12 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->assertEquals(true, $this->cart->isEmpty());
     }
 
-    public function testIndexOf()
-    {
-        $this->cart->clear();
-
-        $this->cart->add(101, array(), 100, 1.5);
-        $this->cart->add('XXYZ', array(), 100, 1.5);
-        $this->cart->add('ITEMCODE', array(), 100, 1.5);
-
-        $this->assertEquals($this->cart->indexOf('XXYZ'), 1);
-        $this->assertEquals($this->cart->indexOf('ITEMCODE'), 2);
-        $this->assertEquals($this->cart->indexOf(101), 0);
-    }
-
     public function testInvalidProperty()
     {
         $this->cart->clear();
         $this->cart->add('X', [], 1, 1);
 
-        $item = $this->cart->getItemAt(0);
+        $item = $this->cart->get('X');
 
         $this->assertEquals(false, isset($item->nonExistingProperty));
 
@@ -130,7 +117,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->cart->add('A', array(), 3.14, 1);
 
         /** @var CartItem $item */
-        $item = $this->cart->getItemAt(0);
+        $item = $this->cart->get('A');
         try {
             $item->quantity = -1;
 
@@ -151,7 +138,5 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
 
         $this->cart->remove('XXYZ');
         $this->assertEquals($this->cart->count(), 2);
-        $this->assertEquals($this->cart->indexOf('ITEMCODE'), 1);
-
     }
 }

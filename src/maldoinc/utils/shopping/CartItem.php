@@ -46,8 +46,8 @@ class CartItem implements \Serializable
     {
         $this->checkProp($name);
 
-        if ($name === 'quantity' && (float)$val < 0) {
-            throw new InvalidQuantityException("Quantity cannot be negative");
+        if ($name === 'quantity' && (float)$val <= 0) {
+            throw new InvalidQuantityException(sprintf("Invalid quantity: %f", $val));
         }
 
         $this->attr[$name] = $val;

@@ -1,5 +1,6 @@
 <?php
 
+use maldoinc\utils\shopping\InvalidIndexException;
 use maldoinc\utils\shopping\InvalidPropertyException;
 use maldoinc\utils\shopping\InvalidQuantityException;
 use maldoinc\utils\shopping\Cart;
@@ -79,6 +80,27 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->cart->add('A', array(), 3.14, 1);
         $items = $this->cart->getItems();
         $this->assertEquals('A', $items[0]->identifier);
+    }
+
+    public function testGet()
+    {
+        $this->cart->clear();
+
+        $this->cart->add('A', array(), 3.14, 1);
+        $this->cart->add('B', array(), 3.14, 1);
+
+        $item = $this->cart->get('A');
+
+        $this->assertEquals(3.14, $item->price_unit, '', 0.001);
+
+        try {
+            // attempt to access an unknown item
+            $this->cart->get('C');
+
+            $this->fail('Should throw exception');
+        } catch(InvalidIndexException $e) {
+            $this->assertEquals(true, true);
+        }
     }
 
     public function testQuantity()

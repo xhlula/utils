@@ -32,11 +32,27 @@ class Cart implements \Countable
 
     /**
      * @param $index
+     * @throws InvalidIndexException
      * @return CartItem
      */
     public function &getItemAt($index)
     {
-        return $this->items [$index];
+        if (array_key_exists($index, $this->items)) {
+            return $this->items[$index];
+        } else {
+            throw new InvalidIndexException("Item cannot be found");
+        }
+    }
+
+    /**
+     * Returns the item based on it's identifier
+     *
+     * @param $identifier
+     * @return CartItem
+     */
+    public function &get($identifier)
+    {
+        return $this->getItemAt($this->indexOf($identifier));
     }
 
     /**

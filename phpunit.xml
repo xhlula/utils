@@ -2,8 +2,8 @@
     <testsuites>
         <testsuite name="tests">
             <file>tests/utils/PaginationTest.php</file>
-            <file>tests/utils/shopping/ShoppingCartTests.php</file>
-            <file>tests/utils/shopping/PersistentShoppingCartTests.php</file>
+            <file>tests/utils/shopping/CartTests.php</file>
+            <file>tests/utils/shopping/PersistentCartTests.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -1,6 +1,6 @@
 <?php
 
-namespace maldoinc\utils;
+namespace maldoinc\utils\pagination;
 
 class Pagination
 {

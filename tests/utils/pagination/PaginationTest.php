@@ -1,6 +1,6 @@
 <?php
 
-use maldoinc\utils\Pagination;
+use maldoinc\utils\pagination\Pagination;
 
 class PaginationTest extends PHPUnit_Framework_TestCase
 {
@@ -43,10 +43,10 @@ class PaginationTest extends PHPUnit_Framework_TestCase
     public function testGetHTML()
     {
         $cb = function ($page, $label) {
-            return $page;
+            return $label;
         };
 
-        $pagination = new Pagination(100, 10, 1, 9);
+        $pagination = new Pagination(200, 10, 1, 9);
         $pagination->showFirstLast = false;
 
         $this->assertEquals('123456789', $pagination->getHTML($cb));
@@ -55,7 +55,7 @@ class PaginationTest extends PHPUnit_Framework_TestCase
         $pagination = new Pagination(200, 10, 1, 9);
         $pagination->setCurrentPage(10);
         $pagination->showFirstLast = true;
-        $this->assertEquals('16789101112131420', $pagination->getHTML($cb));
+        $this->assertEquals('First67891011121314Last', $pagination->getHTML($cb));
     }
 
     public function testSetPage()

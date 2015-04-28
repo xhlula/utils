@@ -26,6 +26,8 @@ class FilePersistenceStrategy implements CartPersistentInterface
      */
     function clear()
     {
-        unlink($this->filename);
+        if (is_writable($this->filename)) {
+            unlink($this->filename);
+        }
     }
 }

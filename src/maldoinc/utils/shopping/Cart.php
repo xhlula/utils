@@ -200,13 +200,13 @@ class Cart implements \Countable
 
     /**
      * @param $index
-     * @throws exceptions\InvalidIndexException
+     * @throws exceptions\ItemNotFoundException
      * @return CartItem
      */
     protected function getItemAt($index)
     {
         if (!array_key_exists($index, $this->items)) {
-            throw new exceptions\InvalidIndexException("Item cannot be found");
+            throw new exceptions\ItemNotFoundException("Item cannot be found");
         }
 
         return $this->items[$index];

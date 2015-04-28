@@ -11,7 +11,7 @@ class SimplePaginationTest extends PHPUnit_Framework_TestCase
         $p = new SimplePagination(4, 1, '/test/p/%d');
         $expected = "<li><a href='/test/p/1'>1</a></li><li><a href='/test/p/2'>2</a></li>";
 
-        $this->assertEquals($expected, $p->__toString());
+        $this->assertEquals($expected, (string)$p);
         $this->assertEquals('', new SimplePagination(2, 1, '/whatever/%d'));
     }
 }

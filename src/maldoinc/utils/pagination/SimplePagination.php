@@ -45,9 +45,11 @@ class SimplePagination extends Pagination
             return "";
         }
 
-        return $this->getHTML(function ($page_nr, $label) {
-            $class = $page_nr === $this->getCurrentPage() ? ' class="active"' : '';
-            $url = str_replace('%d', $page_nr, $this->href);
+        $page = $this->getCurrentPage();
+        $href = $this->href;
+        return $this->getHTML(function ($page_nr, $label, $page, $href) {
+            $class = $page_nr === $page ? ' class="active"' : '';
+            $url = str_replace('%d', $page_nr, $href);
 
             return sprintf("<li%s><a href='%s'>%s</a></li>", $class, $url, $label);
         });

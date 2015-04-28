@@ -92,7 +92,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
             $this->cart->get('C');
 
             $this->fail('Should throw exception');
-        } catch(InvalidIndexException $e) {
+        } catch(ItemNotFoundException $e) {
             $this->assertEquals(true, true);
         }
     }

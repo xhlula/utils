@@ -17,7 +17,6 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
             /** @var Cart $a */
             $a = $factory();
             $a->add('A', [], 1, 2);
-            $a->save();
 
             /** @var Cart $b */
             $b = $factory();

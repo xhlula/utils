@@ -7,10 +7,12 @@ class PaginationTest extends PHPUnit_Framework_TestCase
     public function testPageCount()
     {
         $p = 9;
-        $pagination = new Pagination(100, 5, 1, $p);
 
+        $pagination = new Pagination(100, 5, 1, $p);
         $this->assertEquals(count($pagination->getPages()), $p);
-        $this->assertEquals(count((new Pagination(0, 5, 1, 9))->getPages()), 0);
+
+        $pagination = new Pagination(0, 5, 1, 9);
+        $this->assertEquals(count($pagination->getPages()), 0);
 
     }
 

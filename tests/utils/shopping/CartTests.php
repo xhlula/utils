@@ -1,6 +1,5 @@
 <?php
 
-use maldoinc\utils\shopping\exceptions\InvalidIndexException;
 use maldoinc\utils\shopping\exceptions\InvalidPropertyException;
 use maldoinc\utils\shopping\exceptions\InvalidQuantityException;
 use maldoinc\utils\shopping\Cart;
@@ -47,7 +46,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     public function testInvalidProperty()
     {
         $this->cart->clear();
-        $id = $this->cart->add('X', [], 1, 1);
+        $id = $this->cart->add('X', array(), 1, 1);
 
         $item = $this->cart->get($id);
 
@@ -84,10 +83,9 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->cart->clear();
 
         $a = $this->cart->add('A', array(), 3.14, 1);
-        $b = $this->cart->add('B', array(), 4.14, 1);
+        $this->cart->add('B', array(), 4.14, 1);
 
         $item = $this->cart->get($a);
-
         $this->assertEquals(3.14, $item->price, '', 0.001);
 
         try {
@@ -114,7 +112,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         $this->cart->clear();
         $a = $this->cart->add('A', array(), 1, 1);
-        $b = $this->cart->add('B', array(), 3, 1);
+        $this->cart->add('B', array(), 3, 1);
 
         $this->cart->update($a, 3, array('x' => 'y'));
 
@@ -158,7 +156,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
 
         $this->cart->add(101, array(), 100, 1.5);
         $first = $this->cart->add('XXYZ', array(), 100, 1.5);
-        $second = $this->cart->add('ITEMCODE', array(), 100, 1.5);
+        $this->cart->add('ITEMCODE', array(), 100, 1.5);
 
         $this->cart->remove($first);
         $this->assertEquals($this->cart->count(), 2);

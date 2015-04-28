@@ -6,6 +6,7 @@ namespace maldoinc\utils\shopping;
  * Class ShoppingCartItem
  * @package maldoinc
  *
+ * @property string rowId
  * @property string identifier
  * @property float quantity
  * @property float price
@@ -14,6 +15,7 @@ namespace maldoinc\utils\shopping;
 class CartItem implements \Serializable
 {
     public $attr = array(
+        'rowId' => null,
         'identifier' => null,
         'quantity' => null,
         'price' => null,
@@ -21,13 +23,15 @@ class CartItem implements \Serializable
     );
 
     /**
+     * @param $rowid
      * @param $identifier
      * @param $quantity
      * @param $price
      * @param $data
      */
-    public function __construct($identifier, $quantity, $price, $data)
+    public function __construct($rowid, $identifier, $quantity, $price, $data)
     {
+        $this->rowId = $rowid;
         $this->identifier = $identifier;
         $this->quantity = $quantity;
         $this->price = $price;

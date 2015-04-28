@@ -2,6 +2,7 @@
 
 namespace maldoinc\utils\shopping;
 
+use maldoinc\utils\shopping\exceptions\ItemNotFoundException;
 use maldoinc\utils\shopping\persistence\CartPersistentInterface;
 use maldoinc\utils\shopping\persistence\NullPersistenceStrategy;
 
@@ -59,14 +60,16 @@ class Cart implements \Countable
     }
 
     /**
-     * Returns the item based on it's identifier
+     * Returns the item based on it's rowid
      *
-     * @param $identifier
+     * @param $rowid
      * @return CartItem
      */
-    public function get($identifier)
+    public function get($rowid)
     {
-        return $this->getItemAt($this->indexOf($identifier));
+        $this->checkRowid($rowid);
+
+        return $this->items[$rowid];
     }
 
     /**
@@ -97,57 +100,63 @@ class Cart implements \Countable
      * @param array $data
      * @param float $price
      * @param float $qty
+     * @return string added item rowid
      */
     public function add($identifier, $data, $price, $qty = 1.0)
     {
-        $index = $this->indexOf($identifier);
-
-        // In case item is not found, add it. Else update quantity
-        if ($index == -1) {
-            $this->items[] = new CartItem($identifier, $qty, $price, $data);
-        } else {
-            $this->items[$index]->quantity += $qty;
-        }
-
+        $rowid = uniqid($identifier);
+        $this->items[$rowid] = new CartItem($rowid, $identifier, $qty, $price, $data);
         $this->save();
+
+        return $rowid;
+    }
+
+    /**
+     * Determines whether the cart has or not the item with specified rowid
+     *
+     * @param $rowid
+     * @return bool
+     */
+    public function has($rowid)
+    {
+        return isset($this->items[$rowid]) && $this->items[$rowid] instanceof CartItem;
     }
 
     /**
      * Removes the product with the specified identifier from the shopping cart
      *
-     * @param $identifier
+     * @param $rowid
+     * @throws ItemNotFoundException
      */
-    public function remove($identifier)
+    public function remove($rowid)
     {
-        $this->removeItemAt($this->indexOf($identifier));
+        $this->checkRowid($rowid);
+
+        unset($this->items[$rowid]);
         $this->save();
     }
 
     /**
      * Updates an item
      *
-     * @param $identifier
+     * @param $rowid
      * @param $qty
      * @param array $data
-     * @throws exceptions\ItemNotFoundException
+     * @throws ItemNotFoundException
      */
-    public function update($identifier, $qty, $data = null)
+    public function update($rowid, $qty, $data = null)
     {
-        $idx = $this->indexOf($identifier);
-
-        if ($idx === -1) {
-            throw new exceptions\ItemNotFoundException(sprintf("Item with identifier '%s' not found", $identifier));
-        }
+        $this->checkRowid($rowid);
 
         if ($qty <= 0) {
-            $this->removeItemAt($idx);
+            $this->remove($rowid);
 
             return;
         }
 
-        $this->items[$idx]->quantity = $qty;
+        $this->items[$rowid]->quantity = $qty;
         if ($data !== null) {
-            $this->items[$idx]->data = $data;
+            $this->items[$rowid]->data = $data;
         }
 
         $this->save();
@@ -176,45 +185,13 @@ class Cart implements \Countable
     }
 
     /**
-     * Returns the index of the element with the specified identifier
-     *
-     * @param $identifier
-     * @return int
+     * @param $rowid
+     * @throws ItemNotFoundException
      */
-    protected function indexOf($identifier)
+    protected function checkRowid($rowid)
     {
-        $position = 0;
-        foreach ($this->items as $item) {
-            if ($item->identifier === $identifier) {
-                return $position;
-            }
-            $position++;
+        if (!$this->has($rowid)) {
+            throw new ItemNotFoundException(sprintf("Item with rowid '%s' not found", $rowid));
         }
-
-        return -1;
-    }
-
-    /**
-     * Removes the item at the specified index
-     *
-     * @param $index
-     */
-    protected function removeItemAt($index)
-    {
-        array_splice($this->items, $index, 1);
-    }
-
-    /**
-     * @param $index
-     * @throws exceptions\ItemNotFoundException
-     * @return CartItem
-     */
-    protected function getItemAt($index)
-    {
-        if (!array_key_exists($index, $this->items)) {
-            throw new exceptions\ItemNotFoundException("Item cannot be found");
-        }
-
-        return $this->items[$index];
     }
 }

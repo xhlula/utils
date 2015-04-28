@@ -28,20 +28,13 @@ class Cart implements \Countable
     }
 
     /**
-     * Save the shopping cart data
-     */
-    public function save()
-    {
-        $this->intf->save(serialize($this->items));
-    }
-
-    /**
      * Clears the shopping cart
      */
     public function clear()
     {
         $this->items = array();
         $this->intf->clear();
+        $this->save();
     }
 
     /**
@@ -115,6 +108,8 @@ class Cart implements \Countable
         } else {
             $this->items[$index]->quantity += $qty;
         }
+
+        $this->save();
     }
 
     /**
@@ -125,6 +120,7 @@ class Cart implements \Countable
     public function remove($identifier)
     {
         $this->removeItemAt($this->indexOf($identifier));
+        $this->save();
     }
 
     /**
@@ -153,6 +149,16 @@ class Cart implements \Countable
         if ($data !== null) {
             $this->items[$idx]->data = $data;
         }
+
+        $this->save();
+    }
+
+    /**
+     * Save the shopping cart data
+     */
+    protected function save()
+    {
+        $this->intf->save(serialize($this->items));
     }
 
     /**

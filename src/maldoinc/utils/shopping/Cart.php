@@ -79,7 +79,7 @@ class Cart implements \Countable
      */
     public function getItems()
     {
-        return $this->items;
+        return array_values($this->items);
     }
 
     /**

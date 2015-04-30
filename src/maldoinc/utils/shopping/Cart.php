@@ -9,7 +9,7 @@ use maldoinc\utils\shopping\persistence\NullPersistenceStrategy;
 class Cart implements \Countable
 {
     /* @var $items CartItem[] */
-    protected $items = [];
+    protected $items = array();
 
     /** @var CartPersistentInterface */
     protected $intf = null;
@@ -33,7 +33,7 @@ class Cart implements \Countable
      */
     public function clear()
     {
-        $this->items = [];
+        $this->items = array();
         $this->intf->clear();
         $this->save();
     }

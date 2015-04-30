@@ -26,6 +26,20 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($cart));
     }
 
+    public function testFilter()
+    {
+        $this->cart->clear();
+
+        $this->cart->add('AB12', array(), 100);
+        $this->cart->add('ABC', array(), 1001);
+
+        $items = $this->cart->filter(function(CartItem $item) {
+            return $item->price == 1001;
+        });
+
+        $this->assertEquals(1, count($items));
+    }
+
     public function testTotal()
     {
         $this->cart->clear();

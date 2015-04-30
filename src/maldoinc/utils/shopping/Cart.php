@@ -9,7 +9,7 @@ use maldoinc\utils\shopping\persistence\NullPersistenceStrategy;
 class Cart implements \Countable
 {
     /* @var $items CartItem[] */
-    protected $items = array();
+    protected $items = [];
 
     /** @var CartPersistentInterface */
     protected $intf = null;
@@ -33,7 +33,7 @@ class Cart implements \Countable
      */
     public function clear()
     {
-        $this->items = array();
+        $this->items = [];
         $this->intf->clear();
         $this->save();
     }
@@ -80,6 +80,17 @@ class Cart implements \Countable
     public function getItems()
     {
         return array_values($this->items);
+    }
+
+    /**
+     * Return all the items that match a condition
+     *
+     * @param callable $c
+     * @return array
+     */
+    public function filter(Callable $c)
+    {
+        return array_filter($this->getItems(), $c);
     }
 
     /**

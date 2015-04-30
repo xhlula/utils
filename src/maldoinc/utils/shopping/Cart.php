@@ -86,9 +86,9 @@ class Cart implements \Countable
      * Return all the items that match a condition
      *
      * @param callable $c
-     * @return array
+     * @return CartItem[]
      */
-    public function filter(Callable $c)
+    public function filter($c)
     {
         return array_filter($this->getItems(), $c);
     }

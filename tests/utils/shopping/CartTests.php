@@ -19,8 +19,8 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     public function testClear()
     {
         $cart = new Cart();
-        $this->cart->add('AB12', array(), 100);
-        $this->cart->add('AB123', array(), 100);
+        $cart->add('AB12', array(), 100);
+        $cart->add('AB123', array(), 100);
         $cart->clear();
 
         $this->assertEquals(0, count($cart));

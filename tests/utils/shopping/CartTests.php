@@ -38,6 +38,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         });
 
         $this->assertEquals(1, count($items));
+        $this->assertEquals(true, isset($items[0]));
     }
 
     public function testTotal()

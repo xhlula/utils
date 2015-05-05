@@ -90,7 +90,7 @@ class Cart implements \Countable
      */
     public function filter($c)
     {
-        return array_filter($this->getItems(), $c);
+        return array_values(array_filter($this->items, $c));
     }
 
     /**

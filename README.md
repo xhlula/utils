@@ -10,7 +10,8 @@ This library requires PHP 5.3 or later. It is available and downloadable as a cu
 ## Quality
 
 [![Travis](https://api.travis-ci.org/maldoinc/utils.svg)](https://travis-ci.org/maldoinc/utils)
-
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maldoinc/utils/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maldoinc/utils/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/maldoinc/utils/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maldoinc/utils/?branch=master)
 
 ## Classes
 

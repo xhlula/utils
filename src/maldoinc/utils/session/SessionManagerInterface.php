@@ -32,9 +32,10 @@ interface SessionManagerInterface
      * Get the value at the specific key and then remove the key
      *
      * @param $key
+     * @param $default
      * @return mixed
      */
-    function pull($key);
+    function pull($key, $default = null);
 
     /**
      * Clear the session

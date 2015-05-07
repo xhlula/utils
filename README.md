@@ -37,7 +37,7 @@ $pagination_html = $pagination->getHTML(function ($page, $label) {
 
 Simplifies the pagination class even further. Constructor accepts 3 arguments
 
-`total_rows`, `current_page`, and `pagination_url` which serves as a formatting string to replace page numbers into. Place a `%d` symbol at the place where you want your page number to be put into. The generated HTML is Bootstrap-ready.
+`total_rows`, `current_page`, and `pagination_url` which serves as a formatting string to replace page numbers into. Place a `%d` symbol at the place where you want your page number to be put. The generated HTML is Bootstrap-ready.
 
 
 

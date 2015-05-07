@@ -8,7 +8,7 @@ use maldoinc\utils\shopping\persistence\NullPersistenceStrategy;
 
 class Cart implements \Countable
 {
-    /* @var $items CartItem[] */
+    /** @var CartItem[] */
     protected $items = array();
 
     /** @var CartPersistentInterface */

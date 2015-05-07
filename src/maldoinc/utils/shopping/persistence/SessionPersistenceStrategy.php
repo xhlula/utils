@@ -18,17 +18,17 @@ class SessionPersistenceStrategy implements CartPersistentInterface
     /**
      * @return void
      */
-    function clear()
+    public function clear()
     {
         unset($_SESSION[$this->key]);
     }
 
-    function save($data)
+    public function save($data)
     {
         $_SESSION[$this->key] = $data;
     }
 
-    function load()
+    public function load()
     {
         return isset($_SESSION[$this->key]) ? $_SESSION[$this->key] : null;
     }

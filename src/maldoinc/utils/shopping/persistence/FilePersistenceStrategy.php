@@ -11,12 +11,12 @@ class FilePersistenceStrategy implements CartPersistentInterface
         $this->filename = $filename;
     }
 
-    function save($data)
+    public function save($data)
     {
         file_put_contents($this->filename, $data);
     }
 
-    function load()
+    public function load()
     {
         return is_readable($this->filename) ? file_get_contents($this->filename) : null;
     }
@@ -24,7 +24,7 @@ class FilePersistenceStrategy implements CartPersistentInterface
     /**
      * @return void
      */
-    function clear()
+    public function clear()
     {
         if (is_writable($this->filename)) {
             unlink($this->filename);

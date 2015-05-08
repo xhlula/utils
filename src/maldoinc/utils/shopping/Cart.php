@@ -3,30 +3,11 @@
 namespace maldoinc\utils\shopping;
 
 use maldoinc\utils\shopping\exceptions\ItemNotFoundException;
-use maldoinc\utils\shopping\persistence\CartPersistentInterface;
-use maldoinc\utils\shopping\persistence\NullPersistenceStrategy;
 
 class Cart implements \Countable
 {
     /** @var CartItem[] */
     protected $items = array();
-
-    /** @var CartPersistentInterface */
-    protected $intf = null;
-
-    /**
-     * @param CartPersistentInterface $intf
-     */
-    public function __construct(CartPersistentInterface $intf = null)
-    {
-        if ($intf === null) {
-            $this->intf = new NullPersistenceStrategy();
-        } else {
-            $this->intf = $intf;
-        }
-
-        $this->load();
-    }
 
     /**
      * Clears the shopping cart
@@ -34,8 +15,6 @@ class Cart implements \Countable
     public function clear()
     {
         $this->items = array();
-        $this->intf->clear();
-        $this->save();
     }
 
     /**
@@ -70,6 +49,28 @@ class Cart implements \Countable
         $this->checkRowid($rowid);
 
         return $this->items[$rowid];
+    }
+
+    /**
+     * @param $rowid
+     * @throws ItemNotFoundException
+     */
+    protected function checkRowid($rowid)
+    {
+        if (!$this->has($rowid)) {
+            throw new ItemNotFoundException(sprintf("Item with rowid '%s' not found", $rowid));
+        }
+    }
+
+    /**
+     * Determines whether the cart has or not the item with specified rowid
+     *
+     * @param $rowid
+     * @return bool
+     */
+    public function has($rowid)
+    {
+        return isset($this->items[$rowid]) && $this->items[$rowid] instanceof CartItem;
     }
 
     /**
@@ -117,34 +118,8 @@ class Cart implements \Countable
     {
         $rowid = uniqid($identifier);
         $this->items[$rowid] = new CartItem($rowid, $identifier, $qty, $price, $data);
-        $this->save();
 
         return $rowid;
-    }
-
-    /**
-     * Determines whether the cart has or not the item with specified rowid
-     *
-     * @param $rowid
-     * @return bool
-     */
-    public function has($rowid)
-    {
-        return isset($this->items[$rowid]) && $this->items[$rowid] instanceof CartItem;
-    }
-
-    /**
-     * Removes the product with the specified identifier from the shopping cart
-     *
-     * @param $rowid
-     * @throws ItemNotFoundException
-     */
-    public function remove($rowid)
-    {
-        $this->checkRowid($rowid);
-
-        unset($this->items[$rowid]);
-        $this->save();
     }
 
     /**
@@ -169,40 +144,18 @@ class Cart implements \Countable
         if ($data !== null) {
             $this->items[$rowid]->data = $data;
         }
-
-        $this->save();
     }
 
     /**
-     * Save the shopping cart data
-     */
-    protected function save()
-    {
-        $this->intf->save(serialize($this->items));
-    }
-
-    /**
-     * Load shopping cart data.
+     * Removes the product with the specified identifier from the shopping cart
      *
-     * Overwrites any existing items the cart might have
-     */
-    protected function load()
-    {
-        $data = $this->intf->load();
-
-        if ($data !== null) {
-            $this->items = unserialize($data);
-        }
-    }
-
-    /**
      * @param $rowid
      * @throws ItemNotFoundException
      */
-    protected function checkRowid($rowid)
+    public function remove($rowid)
     {
-        if (!$this->has($rowid)) {
-            throw new ItemNotFoundException(sprintf("Item with rowid '%s' not found", $rowid));
-        }
+        $this->checkRowid($rowid);
+
+        unset($this->items[$rowid]);
     }
 }

@@ -15,11 +15,11 @@ namespace maldoinc\utils\shopping;
 class CartItem implements \Serializable
 {
     public $attr = array(
-        'rowId' => null,
+        'rowId'      => null,
         'identifier' => null,
-        'quantity' => null,
-        'price' => null,
-        'data' => null
+        'quantity'   => null,
+        'price'      => null,
+        'data'       => null
     );
 
     /**
@@ -38,18 +38,6 @@ class CartItem implements \Serializable
         $this->data = $data;
     }
 
-    protected function hasProp($name)
-    {
-        return array_key_exists($name, $this->attr);
-    }
-
-    protected function checkProp($name)
-    {
-        if (!$this->hasProp($name)) {
-            throw new exceptions\InvalidPropertyException(sprintf("Invalid property: %s on class %s", $name, __CLASS__));
-        }
-    }
-
     public function __get($name)
     {
         $this->checkProp($name);
@@ -66,6 +54,18 @@ class CartItem implements \Serializable
         }
 
         $this->attr[$name] = $val;
+    }
+
+    protected function checkProp($name)
+    {
+        if (!$this->hasProp($name)) {
+            throw new exceptions\InvalidPropertyException(sprintf("Invalid property: %s on class %s", $name, __CLASS__));
+        }
+    }
+
+    protected function hasProp($name)
+    {
+        return array_key_exists($name, $this->attr);
     }
 
     public function __isset($name)

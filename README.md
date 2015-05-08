@@ -97,9 +97,9 @@ $item = $cart->get($rowid);
 ###### Nb: The `update`, `remove` and `get` methods will throw an `ItemNotFoundException` in case the specified rowid is not found. If you want to safely check the existence of a rowid use the `has` method
 
 
-### Persistent Cart
+### PersistentCart
 
-All of the above is nice and all but sort of not useful if you can't persist the data across requests. To our rescue comes the `CartPersistentInterface` interface, which is passed to the `Cart` class constructor.
+All of the above is nice and all but sort of not useful if you can't persist the data across requests. To our rescue comes the `CartPersistentInterface` interface, which is passed to the `PersistentCart` class constructor.
 
 Out of the box the following persistence methods are supported
 
@@ -110,10 +110,10 @@ You can implement your own storage mechanisms by implementing the persistence in
 
 ```php
 // session based persistence
-$cart = new Cart(new SessionPersistenceStrategy('some_unique_session_key'));
+$cart = new PersistentCart(new SessionPersistenceStrategy('some_unique_session_key'));
 
 // file based
-$cart = new Cart(new FilePersistenceStrategy("temp/sessions/" . $user_id));
+$cart = new PersistentCart(new FilePersistenceStrategy("temp/sessions/" . $user_id));
 ```
 
 

@@ -8,12 +8,20 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
     public function testSessionPersistence()
     {
         $a = $this->getCart();
-        $a->add('A', array(), 1, 2);
+        $rowid = $a->add('A', array(), 1, 2);
 
         $b = $this->getCart();
 
         $this->assertEquals($a->count(), $b->count());
         $this->assertEquals($a->getTotal(), $b->getTotal());
+
+        $item = $b->get($rowid);
+        $this->assertEquals($rowid, $item->rowId);
+
+        $b->update($rowid, 10);
+        $this->assertEquals(10, $b->getTotal());
+        $b->remove($rowid);
+        $this->assertEquals(0, $b->count());
 
         $a->clear();
     }

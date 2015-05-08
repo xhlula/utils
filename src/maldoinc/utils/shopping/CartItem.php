@@ -12,7 +12,7 @@ namespace maldoinc\utils\shopping;
  * @property float price
  * @property array data
  */
-class CartItem implements \Serializable
+class CartItem
 {
     public $attr = array(
         'rowId'      => null,
@@ -71,30 +71,5 @@ class CartItem implements \Serializable
     public function __isset($name)
     {
         return isset($this->attr[$name]);
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * String representation of object
-     * @link http://php.net/manual/en/serializable.serialize.php
-     * @return string the string representation of the object or null
-     */
-    public function serialize()
-    {
-        return serialize($this->attr);
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Constructs the object
-     * @link http://php.net/manual/en/serializable.unserialize.php
-     * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
-     * @return void
-     */
-    public function unserialize($serialized)
-    {
-        $this->attr = unserialize($serialized);
     }
 }

@@ -3,26 +3,37 @@
 namespace maldoinc\utils\shopping;
 
 use maldoinc\utils\shopping\persistence\CartPersistentInterface;
-use maldoinc\utils\shopping\persistence\NullPersistenceStrategy;
 
 class PersistentCart extends Cart
 {
     /** @var CartPersistentInterface */
     protected $intf = null;
 
-
     /**
      * @param CartPersistentInterface $intf
      */
     public function __construct(CartPersistentInterface $intf = null)
     {
-        if ($intf === null) {
-            $this->intf = new NullPersistenceStrategy();
-        } else {
-            $this->intf = $intf;
-        }
-
+        $this->intf = $intf;
         $this->load();
+    }
+
+    /**
+     * Load shopping cart data.
+     *
+     * Overwrites any existing items the cart might have
+     */
+    protected function load()
+    {
+        $data = $this->intf->load();
+
+        if ($data !== null) {
+            $items = unserialize($data);
+
+            if (is_array($items)) {
+                $this->setItems($items);
+            }
+        }
     }
 
     public function clear()
@@ -39,6 +50,14 @@ class PersistentCart extends Cart
         return $rowid;
     }
 
+    /**
+     * Save the shopping cart data
+     */
+    protected function save()
+    {
+        $this->intf->save(serialize($this->getItems()));
+    }
+
     public function remove($rowid)
     {
         parent::remove($rowid);
@@ -49,27 +68,5 @@ class PersistentCart extends Cart
     {
         parent::update($rowid, $qty, $data);
         $this->save();
-    }
-
-    /**
-     * Save the shopping cart data
-     */
-    protected function save()
-    {
-        $this->intf->save(serialize($this->items));
-    }
-
-    /**
-     * Load shopping cart data.
-     *
-     * Overwrites any existing items the cart might have
-     */
-    protected function load()
-    {
-        $data = $this->intf->load();
-
-        if ($data !== null) {
-            $this->items = unserialize($data);
-        }
     }
 }

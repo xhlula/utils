@@ -84,6 +84,16 @@ class Cart implements \Countable
     }
 
     /**
+     * @param CartItem[] $items
+     */
+    public function setItems($items)
+    {
+        foreach ($items as $item) {
+            $this->items[$item->rowId] = $item;
+        }
+    }
+
+    /**
      * Return all the items that match a condition
      *
      * @param callable $c

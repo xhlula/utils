@@ -48,7 +48,7 @@ class SimplePagination extends Pagination
         $page = $this->getCurrentPage();
         $href = $this->href;
 
-        return $this->getHTML(function ($page_nr, $label) use($page, $href){
+        return $this->getHTML(function ($page_nr, $label) use ($page, $href) {
             $class = $page_nr === $page ? ' class="active"' : '';
             $url = str_replace('%d', $page_nr, $href);
 

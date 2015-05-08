@@ -3,7 +3,7 @@
 namespace maldoinc\utils\session;
 
 
-class NativeSessionManager implements SessionManagerInterface
+class SessionManager implements SessionManagerInterface
 {
     protected $baseKey;
 

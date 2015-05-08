@@ -108,18 +108,21 @@ class Pagination
             return array();
         }
 
+        // determine at which page will the pagination start and end
         $f = floor($this->nrPagesVisible / 2);
         $start = $this->currentPage - $f;
         $end = $this->currentPage + $f;
 
-        if ($end < $this->nrPagesVisible) {
-            $end = $this->nrPagesVisible;
-        }
+        // Let's set the upper bound
 
-        if ($end > $this->getTotalPages()) {
-            $end = $this->getTotalPages();
-        }
+        // it should not be less than the requested amount of visible pages
+        $min_upper_boundary = max($end, $this->nrPagesVisible);
 
+        // but also should not exceed the total pages number
+        $end = min($min_upper_boundary, $this->getTotalPages());
+
+        // adjust the starting page accordingly
+        // which should be end - visiblepages (inclusive)
         if ($end - $start < $this->nrPagesVisible) {
             $start = 1 + $end - $this->nrPagesVisible;
         }

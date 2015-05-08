@@ -22,13 +22,6 @@ class CartItem
         'data'       => null
     );
 
-    /**
-     * @param $rowid
-     * @param $identifier
-     * @param $quantity
-     * @param $price
-     * @param $data
-     */
     public function __construct($rowid, $identifier, $quantity, $price, $data)
     {
         $this->rowId = $rowid;

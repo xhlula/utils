@@ -14,7 +14,7 @@ namespace maldoinc\utils\shopping;
  */
 class CartItem
 {
-    public $attr = array(
+    protected $attr = array(
         'rowId'      => null,
         'identifier' => null,
         'quantity'   => null,

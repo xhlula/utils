@@ -5,12 +5,11 @@ namespace maldoinc\utils\session;
 
 class SessionManager implements SessionManagerInterface
 {
-    protected $baseKey;
     protected $sess;
 
     public function __construct(&$sess, $base_key)
     {
-        if (!isset($sess[$base_key])) {
+        if (!(isset($sess[$base_key]) && is_array($sess[$base_key]))) {
             $sess[$base_key] = array();
         }
 

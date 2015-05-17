@@ -103,14 +103,14 @@ All of the above is nice and all but sort of not useful if you can't persist the
 
 Out of the box the following persistence methods are supported
 
-* PHP Native session storage via the `SessionPersistenceStrategy` class
+* Session based storage via the `SessionPersistenceStrategy` class
 * File based sessions via the `FilePersistenceStrategy` class
 
 You can implement your own storage mechanisms by implementing the persistence interface and passing the class to the `Cart` constructor.
 
 ```php
 // session based persistence
-$cart = new PersistentCart(new SessionPersistenceStrategy('some_unique_session_key'));
+$cart = new PersistentCart(new SessionPersistenceStrategy(new SessionManager($_SESSION, 'some_unique_session_key')));
 
 // file based
 $cart = new PersistentCart(new FilePersistenceStrategy("temp/sessions/" . $user_id));

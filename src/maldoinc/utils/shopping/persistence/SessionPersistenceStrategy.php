@@ -2,17 +2,16 @@
 
 namespace maldoinc\utils\shopping\persistence;
 
+use maldoinc\utils\session\SessionManagerInterface;
+
 class SessionPersistenceStrategy implements CartPersistentInterface
 {
-    protected $key;
+    protected $key = 'shopping_cart_data';
+    protected $sess;
 
-    public function __construct($key)
+    public function __construct(SessionManagerInterface $sess)
     {
-        if (!session_id()) {
-            session_start();
-        }
-
-        $this->key = $key;
+        $this->sess = $sess;
     }
 
     /**
@@ -20,16 +19,16 @@ class SessionPersistenceStrategy implements CartPersistentInterface
      */
     public function clear()
     {
-        unset($_SESSION[$this->key]);
+        $this->sess->flush();
     }
 
     public function save($data)
     {
-        $_SESSION[$this->key] = $data;
+        $this->sess->set($this->key, $data);
     }
 
     public function load()
     {
-        return isset($_SESSION[$this->key]) ? $_SESSION[$this->key] : null;
+        return $this->sess->get($this->key);
     }
 }

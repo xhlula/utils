@@ -1,16 +1,41 @@
 <?php
 
+use maldoinc\utils\session\SessionManager;
 use maldoinc\utils\shopping\persistence\FilePersistenceStrategy;
+use maldoinc\utils\shopping\persistence\SessionPersistenceStrategy;
 use maldoinc\utils\shopping\PersistentCart;
 
 class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
 {
-    public function testSessionPersistence()
+    protected $mock = array();
+
+    public function sessionPersistenceDataProvider()
     {
-        $a = $this->getCart();
+        $key = 'shopping_cart_test';
+        $f = __DIR__ . DIRECTORY_SEPARATOR . $key;
+        $mgr = new SessionManager($this->mock, $key);
+
+        return array(
+            array(null, function () use ($f) {
+                return new PersistentCart(new FilePersistenceStrategy($f));
+            }),
+            array(null, function () use ($mgr) {
+                return new PersistentCart(new SessionPersistenceStrategy($mgr));
+            })
+        );
+    }
+
+    /**
+     * @dataProvider sessionPersistenceDataProvider
+     */
+    public function testSessionPersistence($actual, $factory)
+    {
+        /** @var $a PersistentCart */
+        $a = $factory();
         $rowid = $a->add('A', array(), 1, 2);
 
-        $b = $this->getCart();
+        /** @var $b PersistentCart */
+        $b = $factory();
 
         $this->assertEquals($a->count(), $b->count());
         $this->assertEquals($a->getTotal(), $b->getTotal());
@@ -24,12 +49,5 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $b->count());
 
         $a->clear();
-    }
-
-    protected function getCart()
-    {
-        $f = __DIR__ . DIRECTORY_SEPARATOR . 'shopping_cart_test';
-
-        return new PersistentCart(new FilePersistenceStrategy($f));
     }
 }

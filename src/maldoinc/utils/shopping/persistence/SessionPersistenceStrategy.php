@@ -6,12 +6,13 @@ use maldoinc\utils\session\SessionManagerInterface;
 
 class SessionPersistenceStrategy implements CartPersistentInterface
 {
-    protected $key = 'shopping_cart_data';
+    protected $key;
     protected $sess;
 
-    public function __construct(SessionManagerInterface $sess)
+    public function __construct(SessionManagerInterface $sess, $key)
     {
         $this->sess = $sess;
+        $this->key = $key;
     }
 
     /**

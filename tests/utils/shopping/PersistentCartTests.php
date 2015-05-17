@@ -19,8 +19,8 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
             array(null, function () use ($f) {
                 return new PersistentCart(new FilePersistenceStrategy($f));
             }),
-            array(null, function () use ($mgr) {
-                return new PersistentCart(new SessionPersistenceStrategy($mgr));
+            array(null, function () use ($mgr, $key) {
+                return new PersistentCart(new SessionPersistenceStrategy($mgr, $key));
             })
         );
     }

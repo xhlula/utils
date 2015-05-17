@@ -136,7 +136,7 @@ class Pagination
      * @param callable $reducefunc callback to the function which will return the markup
      * @return string
      */
-    public function getHTML($reducefunc)
+    public function getHtml($reducefunc)
     {
         $html = "";
         $pages = $this->getPages();

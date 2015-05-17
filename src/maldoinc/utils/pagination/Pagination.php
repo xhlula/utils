@@ -89,11 +89,11 @@ class Pagination
     /**
      * Returns the number of total pages available
      *
-     * @return float
+     * @return int
      */
     public function getTotalPages()
     {
-        return floor($this->totalRecords / $this->recordsPerPage) + (int)($this->totalRecords % $this->recordsPerPage > 0);
+        return (int)floor($this->totalRecords / $this->recordsPerPage) + (int)($this->totalRecords % $this->recordsPerPage > 0);
     }
 
     /**
@@ -127,7 +127,7 @@ class Pagination
             $start = 1 + $end - $this->nrPagesVisible;
         }
 
-        return range(max(1, $start), $end);
+        return range(max(1, (int)$start), (int)$end);
     }
 
     /**
@@ -143,6 +143,8 @@ class Pagination
         $cnt = count($pages);
         $total = $this->getTotalPages();
 
+        // If the first page is not visible and the appropriate settings
+        // are in place, add it to the generated output
         if ($this->showFirstLast && (($cnt > 0) && ($pages[0] != 1))) {
             $html = $reducefunc(1, $this->firstPageStr);
         }
@@ -151,6 +153,7 @@ class Pagination
             return $result . $reducefunc($item, $item);
         });
 
+        // Same goes for last page.
         if ($this->showFirstLast && (($cnt > 0) && ($pages[$cnt - 1] != $total))) {
             $html .= $reducefunc($total, $this->lastPageStr);
         }

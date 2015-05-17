@@ -1,14 +1,7 @@
 <phpunit bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="Utils test suite">
-            <file>tests/utils/shopping/CartTests.php</file>
-            <file>tests/utils/shopping/PersistentCartTests.php</file>
-
-            <file>tests/utils/pagination/PaginationTest.php</file>
-            <file>tests/utils/pagination/SimplePaginationTest.php</file>
-
-
-            <file>tests/utils/session/SessionManagerTest.php</file>
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

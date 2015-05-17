@@ -58,6 +58,9 @@ class PaginationTest extends PHPUnit_Framework_TestCase
         $pagination->setCurrentPage(10);
         $pagination->showFirstLast = true;
         $this->assertEquals('First67891011121314Last', $pagination->getHtml($cb));
+
+        $pagination = new Pagination(0, 10, 1, 9);
+        $this->assertEquals('', $pagination->getHtml($cb));
     }
 
     public function testSetPage()

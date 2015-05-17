@@ -110,7 +110,7 @@ You can implement your own storage mechanisms by implementing the persistence in
 
 ```php
 // session based persistence
-$cart = new PersistentCart(new SessionPersistenceStrategy(new SessionManager($_SESSION, 'some_unique_session_key')));
+$cart = new PersistentCart(new SessionPersistenceStrategy(new SessionManager(...), 'shopping_cart');
 
 // file based
 $cart = new PersistentCart(new FilePersistenceStrategy("temp/sessions/" . $user_id));

@@ -42,7 +42,7 @@ class SessionManager implements SessionManagerInterface
 
     public function flush()
     {
-        $this->sess = [];
+        $this->sess = array();
     }
 
     public function all()

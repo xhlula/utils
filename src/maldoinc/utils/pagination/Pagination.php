@@ -153,14 +153,14 @@ class Pagination
         // Add links to first and last page if necessary only when the appropriate option is set
         if ($this->showFirstLast) {
             // If the first page is not visible prepend it to the generated output
-            if ($pages[0] != 1) {
+            if (reset($pages) != 1) {
                 $html = $reducefunc(1, $this->firstPageStr) . $html;
             }
 
             // Same goes for last page.
             $last_page = $this->getTotalPages();
 
-            if ($pages[$cnt - 1] != $last_page) {
+            if (end($pages) != $last_page) {
                 $html = $html . $reducefunc($last_page, $this->lastPageStr);
             }
         }

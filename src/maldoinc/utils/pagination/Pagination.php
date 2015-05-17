@@ -138,24 +138,31 @@ class Pagination
      */
     public function getHtml($reducefunc)
     {
-        $html = "";
         $pages = $this->getPages();
         $cnt = count($pages);
-        $total = $this->getTotalPages();
 
-        // If the first page is not visible and the appropriate settings
-        // are in place, add it to the generated output
-        if ($this->showFirstLast && (($cnt > 0) && ($pages[0] != 1))) {
-            $html = $reducefunc(1, $this->firstPageStr);
+        // In case of no pages, return an empty string
+        if ($cnt === 0) {
+            return '';
         }
 
-        $html .= array_reduce($pages, function ($result, $item) use ($reducefunc) {
+        $html = array_reduce($pages, function ($result, $item) use ($reducefunc) {
             return $result . $reducefunc($item, $item);
         });
 
-        // Same goes for last page.
-        if ($this->showFirstLast && (($cnt > 0) && ($pages[$cnt - 1] != $total))) {
-            $html .= $reducefunc($total, $this->lastPageStr);
+        // Add links to first and last page if necessary only when the appropriate option is set
+        if ($this->showFirstLast) {
+            // If the first page is not visible prepend it to the generated output
+            if ($pages[0] != 1) {
+                $html = $reducefunc(1, $this->firstPageStr) . $html;
+            }
+
+            // Same goes for last page.
+            $last_page = $this->getTotalPages();
+
+            if ($pages[$cnt - 1] != $last_page) {
+                $html = $html . $reducefunc($last_page, $this->lastPageStr);
+            }
         }
 
         return $html;

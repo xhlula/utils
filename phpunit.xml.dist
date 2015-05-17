@@ -6,6 +6,9 @@
 
             <file>tests/utils/pagination/PaginationTest.php</file>
             <file>tests/utils/pagination/SimplePaginationTest.php</file>
+
+
+            <file>tests/utils/session/SessionManagerTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

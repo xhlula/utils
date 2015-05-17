@@ -122,7 +122,7 @@ $cart = new PersistentCart(new FilePersistenceStrategy("temp/sessions/" . $user_
 The default cookie-based sessions tend to be a mess when multiple applications hosted on the same domain try and access the same keys ending up overwriting each-other's data. This problem is solved by the `SessionManager` class.
 
 ```php
-$session = new SessionManager('some_unique_session_key');
+$session = new SessionManager($_SESSION, 'some_unique_session_key');
 ```
 
 The session manager supports the following methods

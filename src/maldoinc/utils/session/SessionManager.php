@@ -6,29 +6,30 @@ namespace maldoinc\utils\session;
 class SessionManager implements SessionManagerInterface
 {
     protected $baseKey;
+    protected $sess;
 
-    public function __construct($base_key)
+    public function __construct(&$sess, $base_key)
     {
-        $this->baseKey = $base_key;
-
-        if (!isset($_SESSION[$this->baseKey])) {
-            $_SESSION[$this->baseKey] = [];
+        if (!isset($sess[$base_key])) {
+            $sess[$base_key] = array();
         }
+
+        $this->sess = &$sess[$base_key];
     }
 
     public function set($key, $value)
     {
-        $_SESSION[$this->baseKey][$key] = $value;
+        $this->sess[$key] = $value;
     }
 
     public function get($key, $default = null)
     {
-        return $this->has($key) ? $_SESSION[$this->baseKey][$key] : $default;
+        return $this->has($key) ? $this->sess[$key] : $default;
     }
 
     public function forget($key)
     {
-        unset($_SESSION[$this->baseKey][$key]);
+        unset($this->sess[$key]);
     }
 
     public function pull($key, $default = null)
@@ -41,16 +42,16 @@ class SessionManager implements SessionManagerInterface
 
     public function flush()
     {
-        $_SESSION[$this->baseKey] = [];
+        $this->sess = [];
     }
 
     public function all()
     {
-        return $_SESSION[$this->baseKey];
+        return $this->sess;
     }
 
     public function has($key)
     {
-        return isset($_SESSION[$this->baseKey][$key]);
+        return isset($this->sess[$key]);
     }
 }

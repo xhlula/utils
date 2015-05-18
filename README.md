@@ -2,18 +2,17 @@
 
 Generic utility classes for application development
 
-
-## Installation
-
-This library requires PHP 5.3 or later. It is available and downloadable as a custom repository through composer.
-
-## Quality
-
 [![Travis](https://api.travis-ci.org/maldoinc/utils.svg)](https://travis-ci.org/maldoinc/utils)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maldoinc/utils/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maldoinc/utils/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/maldoinc/utils/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maldoinc/utils/?branch=master)
 
-## Classes
+
+# Installation
+
+This library requires PHP 5.3 or later. It is available and downloadable as a custom repository through composer.
+
+# Classes
+---
 
 ### Pagination
 
@@ -33,7 +32,7 @@ $pagination_html = $pagination->getHTML(function ($page, $label) {
 
 ```
 
-
+---
 ### SimplePagination
 
 Simplifies the pagination class even further. Constructor accepts 3 arguments
@@ -48,7 +47,7 @@ $pagination_html = new SimplePagination($total_rows, $current_page, "users/list?
 
 That was too easy now, was it?
 
-
+---
 ### Cart
 
 Allows management of a shopping cart (no way!)
@@ -96,7 +95,7 @@ $item = $cart->get($rowid);
 
 ###### Nb: The `update`, `remove` and `get` methods will throw an `ItemNotFoundException` in case the specified rowid is not found. If you want to safely check the existence of a rowid use the `has` method
 
-
+---
 ### PersistentCart
 
 All of the above is nice and all but sort of not useful if you can't persist the data across requests. To our rescue comes the `CartPersistentInterface` interface, which is passed to the `PersistentCart` class constructor.
@@ -116,7 +115,7 @@ $cart = new PersistentCart(new SessionPersistenceStrategy(new SessionManager(...
 $cart = new PersistentCart(new FilePersistenceStrategy("temp/sessions/" . $user_id));
 ```
 
-
+---
 ### Session Management
 
 The default cookie-based sessions tend to be a mess when multiple applications hosted on the same domain try and access the same keys ending up overwriting each-other's data. This problem is solved by the `SessionManager` class.
@@ -135,4 +134,5 @@ The session manager supports the following methods
 * `all` - get all the stored data
 * `has($key)` - check existence
 
-If of course you do not want to use the actual session for this, but would rather have database based, file based or whatever based sessions, really - you could implement `SessionManagementInterface` and then simply create an instance of your class rather than a `SessionManager` which should mean that your application works with just this change. Preferably you want to use a singleton pattern alongside this to make sure that you only have to replace one line in the whole application.
+If of course you do not want to use the actual session for this, but would rather have database based, file based or whatever based sessions, really - you could implement `SessionManagementInterface` and then simply create an instance of your class rather than a `SessionManager` which should mean that your application works with just this change. 
+Preferably you want to use a singleton pattern alongside this to make sure that you only have to replace one line in the whole application.

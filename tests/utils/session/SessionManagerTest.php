@@ -105,6 +105,6 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $user = $this->mgr->pull('user');
 
         $this->assertEquals(false, $this->mgr->has('user'));
-        $this->assertEquals(['name' => 'maldoinc'], $user);
+        $this->assertEquals(array('name' => 'maldoinc'), $user);
     }
 }

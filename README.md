@@ -134,5 +134,28 @@ The session manager supports the following methods
 * `all` - get all the stored data
 * `has($key)` - check existence
 
+
+All the methods support the dot(`.`) character as a separator which allows reading/writing to multi-dimensional arrays.
+
+```php
+$session->set('user.name', 'maldoinc'); // ['user' => ['name' => 'maldoinc']]
+
+/* session data
+
+array(
+    'user' => [
+        'role' => [
+            'id'   => 1,
+            'name' => 'Developers'
+        ],
+        'name' => 'maldoinc'
+    ]
+);
+*/
+$name = $session->get('user.name'); // maldoinc
+$role_name = $session->get('user.role.name'); // Developers
+```
+---
+
 If of course you do not want to use the actual session for this, but would rather have database based, file based or whatever based sessions, really - you could implement `SessionManagementInterface` and then simply create an instance of your class rather than a `SessionManager` which should mean that your application works with just this change. 
 Preferably you want to use a singleton pattern alongside this to make sure that you only have to replace one line in the whole application.

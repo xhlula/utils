@@ -9,6 +9,17 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
     /** @var SessionManager */
     protected $mgr;
 
+    protected function getMultiDimensionalArray()
+    {
+        return array(
+            'role' => array(
+                'id'   => 1,
+                'name' => 'Developers'
+            ),
+            'name' => 'maldoinc'
+        );
+    }
+
     public function setUp()
     {
         $this->mgr = new SessionManager($this->mock, $this->baseKey);
@@ -19,6 +30,14 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
     {
         $this->mgr->set('key', 'value');
         $this->assertEquals('value', $this->mock[$this->baseKey]['key']);
+
+        $this->mgr->set('app.user.name', 'aldo');
+        $this->assertEquals('aldo', $this->mock[$this->baseKey]['app']['user']['name']);
+
+        // test set multi dimensional array
+        $this->mgr->set('user', $this->getMultiDimensionalArray());
+
+        $this->assertEquals('maldoinc', $this->mock[$this->baseKey]['user']['name']);
     }
 
     /**
@@ -28,6 +47,14 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('world', $this->mgr->get('hello'));
         $this->assertEquals('default', $this->mgr->get('nope', 'default'));
+
+        $this->mgr->set('app.user.name', 'aldo');
+        $this->assertEquals('aldo', $this->mgr->get('app.user.name'));
+
+        $this->mgr->set('user', $this->getMultiDimensionalArray());
+        $this->assertEquals('maldoinc', $this->mgr->get('user.name'));
+        $this->assertEquals('Developers', $this->mgr->get('user.role.name'));
+        $this->assertEquals(1, $this->mgr->get('user.role.id'));
     }
 
     public function testForget()
@@ -36,11 +63,6 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $this->mgr->get('hello'));
     }
 
-    public function testPull()
-    {
-        $this->assertEquals('world', $this->mgr->pull('hello'));
-        $this->assertEquals(null, $this->mgr->get('hello'));
-    }
 
     public function testAll()
     {
@@ -52,9 +74,6 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $this->assertEquals('world', $all['hello']);
     }
 
-    /**
-     * @depends testAll
-     */
     public function testFlush()
     {
         $this->mgr->set('key', 'value');
@@ -70,5 +89,22 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $this->assertEquals(true, $this->mgr->has('hello'));
         $this->assertEquals(true, $this->mgr->has('key'));
         $this->assertEquals(false, $this->mgr->has('nope'));
+
+        $this->mgr->set('user.name', 'username');
+        $this->assertEquals(true, $this->mgr->has('user'));
+        $this->assertEquals(true, $this->mgr->has('user.name'));
+        $this->assertEquals(false, $this->mgr->has('user.lastName'));
+    }
+
+    public function testPull()
+    {
+        $this->assertEquals('world', $this->mgr->pull('hello'));
+        $this->assertEquals(null, $this->mgr->get('hello'));
+
+        $this->mgr->set('user.name', 'maldoinc');
+        $user = $this->mgr->pull('user');
+
+        $this->assertEquals(false, $this->mgr->has('user'));
+        $this->assertEquals(['name' => 'maldoinc'], $user);
     }
 }

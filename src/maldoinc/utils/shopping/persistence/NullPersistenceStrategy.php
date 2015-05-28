@@ -1,6 +1,6 @@
 <?php
 
-use maldoinc\utils\shopping\persistence\CartPersistentInterface;
+namespace maldoinc\utils\shopping\persistence;
 
 class NullPersistenceStrategy implements CartPersistentInterface
 {

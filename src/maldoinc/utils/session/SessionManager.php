@@ -102,7 +102,7 @@ class SessionManager implements SessionManagerInterface
     {
         $sess = &$this->navigate($key);
 
-        unset($sess[$key]);
+        unset($sess[$this->getName($key)]);
     }
 
     public function flush()

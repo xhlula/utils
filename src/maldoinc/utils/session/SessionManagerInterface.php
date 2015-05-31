@@ -26,7 +26,7 @@ interface SessionManagerInterface
      *
      * @param $key
      */
-    function forget($key);
+    function remove($key);
 
     /**
      * Get the value at the specific key and then remove the key

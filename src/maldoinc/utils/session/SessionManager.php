@@ -37,7 +37,7 @@ class SessionManager implements SessionManagerInterface
     public function pull($key, $default = null)
     {
         $val = $this->get($key, $default);
-        $this->forget($key);
+        $this->remove($key);
 
         return $val;
     }
@@ -126,7 +126,7 @@ class SessionManager implements SessionManagerInterface
      *
      * @param $key
      */
-    public function forget($key)
+    public function remove($key)
     {
         $sess = &$this->navigate($key);
 

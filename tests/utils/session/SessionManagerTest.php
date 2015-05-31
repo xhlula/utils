@@ -59,12 +59,12 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
 
     public function testForget()
     {
-        $this->mgr->forget('hello');
+        $this->mgr->remove('hello');
         $this->assertEquals(null, $this->mgr->get('hello'));
 
         $this->mgr->set('user', array('name' => 'maldoinc', 'roleId' => 1, 'roleName' => 'Developers'));
 
-        $this->mgr->forget('user.name');
+        $this->mgr->remove('user.name');
         $this->assertEquals(array('roleName' => 'Developers', 'roleId' => 1), $this->mgr->get('user'));
     }
 

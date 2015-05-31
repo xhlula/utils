@@ -20,7 +20,7 @@ class SessionPersistenceStrategy implements CartPersistentInterface
      */
     public function clear()
     {
-        $this->sess->forget($this->key);
+        $this->sess->remove($this->key);
     }
 
     public function save($data)

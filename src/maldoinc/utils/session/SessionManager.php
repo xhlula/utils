@@ -79,7 +79,7 @@ class SessionManager implements SessionManagerInterface
     /**
      * Get all the "namespaces" from the specified key.
      *
-     * "greet.hello.world" will return ["hello", "world"]
+     * "greet.hello.world" will return ["gret", "hello"]
      *
      * @param $key
      * @return array

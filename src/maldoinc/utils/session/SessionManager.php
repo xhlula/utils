@@ -10,6 +10,13 @@ class SessionManager implements SessionManagerInterface
 
     protected $sess;
 
+    /**
+     * Creates a new SessionManager object with a reference to $sess and a index pointed at $base_key
+     * If the index at $base_key doesn't exist it will be initialized to an empty array
+     *
+     * @param array $sess Array passed by reference to be modified by SessionManager
+     * @param string $base_key a subkey of the $sess variable where the data will be stored
+     */
     public function __construct(&$sess, $base_key)
     {
         // initialize the assigned key to an array
@@ -70,7 +77,9 @@ class SessionManager implements SessionManagerInterface
     }
 
     /**
-     * Get all the "namespaces" from the specified key
+     * Get all the "namespaces" from the specified key.
+     *
+     * "greet.hello.world" will return ["hello", "world"]
      *
      * @param $key
      * @return array
@@ -78,6 +87,7 @@ class SessionManager implements SessionManagerInterface
     protected function getParts($key)
     {
         $arr = explode($this->DELIMITER, $key);
+        // the last item is the name itself so we remove that from the resulting array
         array_pop($arr);
 
         return $arr;

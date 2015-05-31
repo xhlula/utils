@@ -42,7 +42,7 @@ interface SessionManagerInterface
      *
      * @return mixed
      */
-    function flush();
+    function clear();
 
     /**
      * Get all stored values

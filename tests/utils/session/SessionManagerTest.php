@@ -86,7 +86,7 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $this->mock['dummy'] = 'dummy';
 
         $this->mgr->set('key', 'value');
-        $this->mgr->flush();
+        $this->mgr->clear();
 
         $this->assertEquals(0, count($this->mgr->all()));
         $this->assertEquals('dummy', $this->mock['dummy']);

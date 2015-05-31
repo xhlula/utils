@@ -151,7 +151,7 @@ class SessionManager implements SessionManagerInterface
      *
      * @return mixed
      */
-    public function flush()
+    public function clear()
     {
         $this->sess = array();
     }

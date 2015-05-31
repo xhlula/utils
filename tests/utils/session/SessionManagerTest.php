@@ -57,7 +57,7 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->mgr->get('user.role.id'));
     }
 
-    public function testForget()
+    public function testRemove()
     {
         $this->mgr->remove('hello');
         $this->assertEquals(null, $this->mgr->get('hello'));
@@ -79,7 +79,7 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $this->assertEquals('world', $all['hello']);
     }
 
-    public function testFlush()
+    public function testClear()
     {
         // set data in other keys of the mock variable.
         // our flush method implementation should not modify them

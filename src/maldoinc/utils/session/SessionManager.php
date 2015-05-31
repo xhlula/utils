@@ -20,11 +20,33 @@ class SessionManager implements SessionManagerInterface
         $this->sess = &$sess[$base_key];
     }
 
-    public function set($key, $value)
+    /**
+     * Get the value at the specific key and then remove the key
+     *
+     * @param $key
+     * @param $default
+     * @return mixed
+     */
+    public function pull($key, $default = null)
+    {
+        $val = $this->get($key, $default);
+        $this->forget($key);
+
+        return $val;
+    }
+
+    /**
+     * Get a key from the session
+     *
+     * @param $key
+     * @param $default
+     * @return mixed
+     */
+    public function get($key, $default = null)
     {
         $sess = &$this->navigate($key);
 
-        $sess[$this->getName($key)] = $value;
+        return $this->has($key) ? $sess[$this->getName($key)] : $default;
     }
 
     /**
@@ -62,6 +84,19 @@ class SessionManager implements SessionManagerInterface
     }
 
     /**
+     * Check key existence
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function has($key)
+    {
+        $sess = &$this->navigate($key);
+
+        return isset($sess[$this->getName($key)]);
+    }
+
+    /**
      * Get the property being accessed from the key (everything from the last dot, if any, til the end)
      *
      * @param $key
@@ -76,28 +111,11 @@ class SessionManager implements SessionManagerInterface
         return $result === false ? $key : substr($result, 1);
     }
 
-    public function pull($key, $default = null)
-    {
-        $val = $this->get($key, $default);
-        $this->forget($key);
-
-        return $val;
-    }
-
-    public function get($key, $default = null)
-    {
-        $sess = &$this->navigate($key);
-
-        return $this->has($key) ? $sess[$this->getName($key)] : $default;
-    }
-
-    public function has($key)
-    {
-        $sess = &$this->navigate($key);
-
-        return isset($sess[$this->getName($key)]);
-    }
-
+    /**
+     * Remove a key from the session
+     *
+     * @param $key
+     */
     public function forget($key)
     {
         $sess = &$this->navigate($key);
@@ -105,11 +123,34 @@ class SessionManager implements SessionManagerInterface
         unset($sess[$key]);
     }
 
+    /**
+     * Set the key to a specific value
+     *
+     * @param mixed $key
+     * @param $value
+     */
+    public function set($key, $value)
+    {
+        $sess = &$this->navigate($key);
+
+        $sess[$this->getName($key)] = $value;
+    }
+
+    /**
+     * Clear the session
+     *
+     * @return mixed
+     */
     public function flush()
     {
         $this->sess = array();
     }
 
+    /**
+     * Get all stored values
+     *
+     * @return mixed
+     */
     public function all()
     {
         return $this->sess;

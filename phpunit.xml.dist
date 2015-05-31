@@ -1,4 +1,4 @@
-<phpunit bootstrap="vendor/autoload.php">
+<phpunit bootstrap="src/maldoinc/utils/autoload.php">
     <testsuites>
         <testsuite name="Utils test suite">
             <file>tests/utils/session/SessionManagerTest.php</file>

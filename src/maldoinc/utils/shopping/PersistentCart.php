@@ -12,7 +12,7 @@ class PersistentCart extends Cart
     /**
      * @param CartPersistentInterface $intf
      */
-    public function __construct(CartPersistentInterface $intf = null)
+    public function __construct(CartPersistentInterface $intf)
     {
         $this->intf = $intf;
         $this->load();

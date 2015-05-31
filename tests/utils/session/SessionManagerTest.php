@@ -81,10 +81,15 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
 
     public function testFlush()
     {
+        // set data in other keys of the mock variable.
+        // our flush method implementation should not modify them
+        $this->mock['dummy'] = 'dummy';
+
         $this->mgr->set('key', 'value');
         $this->mgr->flush();
 
         $this->assertEquals(0, count($this->mgr->all()));
+        $this->assertEquals('dummy', $this->mock['dummy']);
     }
 
     public function testHas()

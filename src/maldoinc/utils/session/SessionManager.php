@@ -52,8 +52,9 @@ class SessionManager implements SessionManagerInterface
     public function get($key, $default = null)
     {
         $sess = &$this->navigate($key);
+        $property = $this->getName($key);
 
-        return $this->has($key) ? $sess[$this->getName($key)] : $default;
+        return $this->itemHasProperty($sess, $property) ? $this->itemGetValue($sess, $property) : $default;
     }
 
     /**
@@ -70,7 +71,11 @@ class SessionManager implements SessionManagerInterface
         $parts = $this->getParts($key);
 
         foreach ($parts as $p) {
-            $sess = &$sess[$p];
+            if (is_object($sess)) {
+                $sess = &$sess->$p;
+            } else {
+                $sess = &$sess[$p];
+            }
         }
 
         return $sess;
@@ -94,19 +99,6 @@ class SessionManager implements SessionManagerInterface
     }
 
     /**
-     * Check key existence
-     *
-     * @param $key
-     * @return mixed
-     */
-    public function has($key)
-    {
-        $sess = &$this->navigate($key);
-
-        return isset($sess[$this->getName($key)]);
-    }
-
-    /**
      * Get the property being accessed from the key (everything from the last dot, if any, til the end)
      *
      * @param $key
@@ -121,6 +113,32 @@ class SessionManager implements SessionManagerInterface
         return $result === false ? $key : substr($result, 1);
     }
 
+    protected function itemHasProperty($item, $property)
+    {
+        if (is_object($item)) {
+            return property_exists($item, $property);
+        }
+
+        return isset($item[$property]);
+    }
+
+    protected function itemGetValue($item, $property)
+    {
+        if (is_object($item)) {
+            $res = $item->$property;
+
+            // if it's a function. call it. Otherwise simply return the value
+            // if the function expects arguments this will not work
+            if (is_callable($res)) {
+                return $res();
+            }
+
+            return $res;
+        }
+
+        return $item[$property];
+    }
+
     /**
      * Remove a key from the session
      *
@@ -129,8 +147,24 @@ class SessionManager implements SessionManagerInterface
     public function remove($key)
     {
         $sess = &$this->navigate($key);
+        $prop = $this->getName($key);
 
-        unset($sess[$this->getName($key)]);
+        if (is_object($sess)) {
+            unset($sess->$prop);
+        } else {
+            unset($sess[$prop]);
+        }
+    }
+
+    /**
+     * Check key existence
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function has($key)
+    {
+        return $this->itemHasProperty($this->navigate($key), $this->getName($key));
     }
 
     /**
@@ -142,8 +176,13 @@ class SessionManager implements SessionManagerInterface
     public function set($key, $value)
     {
         $sess = &$this->navigate($key);
+        $prop = $this->getName($key);
 
-        $sess[$this->getName($key)] = $value;
+        if(is_object($sess)) {
+            $sess->$prop = $value;
+        } else {
+            $sess[$prop] = $value;
+        }
     }
 
     /**

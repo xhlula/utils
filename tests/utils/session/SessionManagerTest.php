@@ -9,21 +9,33 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
     /** @var SessionManager */
     protected $mgr;
 
-    protected function getMultiDimensionalArray()
-    {
-        return array(
-            'role' => array(
-                'id'   => 1,
-                'name' => 'Developers'
-            ),
-            'name' => 'maldoinc'
-        );
-    }
-
     public function setUp()
     {
         $this->mgr = new SessionManager($this->mock, $this->baseKey);
         $this->mgr->set('hello', 'world');
+    }
+
+    public function testGetObjectMethod()
+    {
+        $cls = new stdClass();
+        $cls->this = 'that';
+        $cls->property = new stdClass();
+        $cls->property->nested = true;
+
+        $cls->property->fn = function () {
+            return true;
+        };
+
+        $this->mgr->set('object', $cls);
+
+        $this->assertEquals('that', $this->mgr->get('object.this'));
+        $this->assertEquals(true, $this->mgr->get('object.property.fn'));
+        $this->assertEquals(true, $this->mgr->get('object.property.nested'));
+    }
+
+    public function testNonExistentKey()
+    {
+        $this->assertEquals(null, $this->mgr->get('object.x.y.z'));
     }
 
     public function testSet()
@@ -38,11 +50,25 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $this->mgr->set('user', $this->getMultiDimensionalArray());
 
         $this->assertEquals('maldoinc', $this->mock[$this->baseKey]['user']['name']);
+
+        $this->mgr->set('cls', new stdClass());
+        $this->mgr->set('cls.newprop', function(){
+            return true;
+        });
+        $this->assertEquals(true, $this->mgr->get('cls.newprop'));
     }
 
-    /**
-     * @depends testSet
-     */
+    protected function getMultiDimensionalArray()
+    {
+        return array(
+            'role' => array(
+                'id'   => 1,
+                'name' => 'Developers'
+            ),
+            'name' => 'maldoinc'
+        );
+    }
+
     public function testGet()
     {
         $this->assertEquals('world', $this->mgr->get('hello'));
@@ -66,6 +92,13 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
 
         $this->mgr->remove('user.name');
         $this->assertEquals(array('roleName' => 'Developers', 'roleId' => 1), $this->mgr->get('user'));
+
+        $cls = new stdClass();
+        $cls->prop = true;
+        $this->mgr->set('cls', $cls);
+        $this->mgr->remove('cls.prop');
+
+        $this->assertEquals(false, $this->mgr->has('cls.prop'));
     }
 
 

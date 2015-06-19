@@ -178,7 +178,7 @@ class SessionManager implements SessionManagerInterface
         $sess = &$this->navigate($key);
         $prop = $this->getName($key);
 
-        if(is_object($sess)) {
+        if (is_object($sess)) {
             $sess->$prop = $value;
         } else {
             $sess[$prop] = $value;

@@ -125,15 +125,7 @@ class SessionManager implements SessionManagerInterface
     protected function itemGetValue($item, $property)
     {
         if (is_object($item)) {
-            $res = $item->$property;
-
-            // if it's a function. call it. Otherwise simply return the value
-            // if the function expects arguments this will not work
-            if (is_callable($res)) {
-                return $res();
-            }
-
-            return $res;
+            return $item->$property;
         }
 
         return $item[$property];

@@ -29,7 +29,7 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $this->mgr->set('object', $cls);
 
         $this->assertEquals('that', $this->mgr->get('object.this'));
-        $this->assertEquals(true, $this->mgr->get('object.property.fn'));
+        $this->assertEquals(true, is_callable($this->mgr->get('object.property.fn')));
         $this->assertEquals(true, $this->mgr->get('object.property.nested'));
     }
 
@@ -55,7 +55,7 @@ class TestSessionManager extends PHPUnit_Framework_TestCase
         $this->mgr->set('cls.newprop', function(){
             return true;
         });
-        $this->assertEquals(true, $this->mgr->get('cls.newprop'));
+        $this->assertEquals(true, is_callable($this->mgr->get('cls.newprop')));
     }
 
     protected function getMultiDimensionalArray()

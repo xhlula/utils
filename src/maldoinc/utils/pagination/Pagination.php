@@ -8,36 +8,30 @@ class Pagination
      * @var int number of records per page
      */
     public $recordsPerPage;
-
-    /**
-     * @var int current page number
-     */
-    protected $currentPage;
-
     /**
      * @var int number of total records
      */
     public $totalRecords;
-
     /**
      * @var int number of visible pages
      */
     public $nrPagesVisible;
-
     /**
      * @var bool show/hide first/last page links
      */
     public $showFirstLast = true;
-
     /**
      * @var string label for first page link
      */
     public $firstPageStr = 'First';
-
     /**
      * @var string label for last page link
      */
     public $lastPageStr = 'Last';
+    /**
+     * @var int current page number
+     */
+    protected $currentPage;
 
     /**
      * @param int $total the total number of records
@@ -87,13 +81,41 @@ class Pagination
     }
 
     /**
-     * Returns the number of total pages available
+     * Generates HTML based on the pages to be rendered and the callback function
      *
-     * @return int
+     * @param callable $reducefunc callback to the function which will return the markup
+     * @return string
      */
-    public function getTotalPages()
+    public function getHtml($reducefunc)
     {
-        return (int)floor($this->totalRecords / $this->recordsPerPage) + (int)($this->totalRecords % $this->recordsPerPage > 0);
+        $pages = $this->getPages();
+        $cnt = count($pages);
+
+        // In case of no pages, return an empty string
+        if ($cnt === 0) {
+            return '';
+        }
+
+        $html = array_reduce($pages, function ($result, $item) use ($reducefunc) {
+            return $result . $reducefunc($item, $item);
+        });
+
+        // Add links to first and last page if necessary only when the appropriate option is set
+        if ($this->showFirstLast) {
+            // If the first page is not visible prepend it to the generated output
+            if (reset($pages) != 1) {
+                $html = $reducefunc(1, $this->firstPageStr) . $html;
+            }
+
+            // Same goes for last page.
+            $last_page = $this->getTotalPages();
+
+            if (end($pages) != $last_page) {
+                $html = $html . $reducefunc($last_page, $this->lastPageStr);
+            }
+        }
+
+        return $html;
     }
 
     /**
@@ -131,40 +153,12 @@ class Pagination
     }
 
     /**
-     * Generates HTML based on the pages to be rendered and the callback function
+     * Returns the number of total pages available
      *
-     * @param callable $reducefunc callback to the function which will return the markup
-     * @return string
+     * @return int
      */
-    public function getHtml($reducefunc)
+    public function getTotalPages()
     {
-        $pages = $this->getPages();
-        $cnt = count($pages);
-
-        // In case of no pages, return an empty string
-        if ($cnt === 0) {
-            return '';
-        }
-
-        $html = array_reduce($pages, function ($result, $item) use ($reducefunc) {
-            return $result . $reducefunc($item, $item);
-        });
-
-        // Add links to first and last page if necessary only when the appropriate option is set
-        if ($this->showFirstLast) {
-            // If the first page is not visible prepend it to the generated output
-            if (reset($pages) != 1) {
-                $html = $reducefunc(1, $this->firstPageStr) . $html;
-            }
-
-            // Same goes for last page.
-            $last_page = $this->getTotalPages();
-
-            if (end($pages) != $last_page) {
-                $html = $html . $reducefunc($last_page, $this->lastPageStr);
-            }
-        }
-
-        return $html;
+        return (int)floor($this->totalRecords / $this->recordsPerPage) + (int)($this->totalRecords % $this->recordsPerPage > 0);
     }
 }

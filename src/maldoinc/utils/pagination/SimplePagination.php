@@ -13,9 +13,8 @@ namespace maldoinc\utils\pagination;
  */
 class SimplePagination extends Pagination
 {
-    public $href = null;
-
     protected static $defaultRowsPerPage = 10;
+    public $href = null;
 
     /**
      * @param int $total total number of rows available

@@ -22,7 +22,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $cart->add('AB123', array(), 100);
         $cart->clear();
 
-        $this->assertEquals(0, count($cart));
+        $this->assertCount(0, $cart);
     }
 
     public function testFilter()
@@ -33,10 +33,10 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->cart->add('ABC', array(), 1001);
 
         $items = $this->cart->filter(function(CartItem $item) {
-            return $item->getPrice() == 1001;
+            return $item->getPrice() === 1001;
         });
 
-        $this->assertEquals(1, count($items));
+        $this->assertCount(1, $items);
         $this->assertEquals(true, isset($items[0]));
     }
 
@@ -61,7 +61,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         $this->cart->clear();
 
-        $this->assertEquals(0, count($this->cart));
+        $this->assertCount(0, $this->cart);
     }
 
     public function testGetItems()

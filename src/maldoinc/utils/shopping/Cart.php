@@ -43,6 +43,7 @@ class Cart implements \Countable
      *
      * @param $rowid
      * @return CartItem
+     * @throws ItemNotFoundException
      */
     public function get($rowid)
     {
@@ -70,7 +71,7 @@ class Cart implements \Countable
      */
     public function has($rowid)
     {
-        return isset($this->items[$rowid]) && $this->items[$rowid] instanceof CartItem;
+        return array_key_exists($rowid, $this->items) && $this->items[$rowid] instanceof CartItem;
     }
 
     /**

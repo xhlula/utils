@@ -1,6 +1,5 @@
 <?php
 
-use maldoinc\utils\shopping\exceptions\InvalidPropertyException;
 use maldoinc\utils\shopping\exceptions\InvalidQuantityException;
 use maldoinc\utils\shopping\Cart;
 use maldoinc\utils\shopping\CartItem;
@@ -34,7 +33,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->cart->add('ABC', array(), 1001);
 
         $items = $this->cart->filter(function(CartItem $item) {
-            return $item->price == 1001;
+            return $item->getPrice() == 1001;
         });
 
         $this->assertEquals(1, count($items));
@@ -56,24 +55,6 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         $this->cart->clear();
         $this->assertEquals(true, $this->cart->isEmpty());
-    }
-
-    public function testInvalidProperty()
-    {
-        $this->cart->clear();
-        $id = $this->cart->add('X', array(), 1, 1);
-
-        $item = $this->cart->get($id);
-
-        $this->assertEquals(false, isset($item->nonExistingProperty));
-
-        try {
-            $item->shouldThrowException = 'y';
-
-            $this->fail('Invalid property. Should fail');
-        } catch (InvalidPropertyException $e) {
-            $this->assertEquals(true, true);
-        }
     }
 
     public function testCountable()
@@ -101,7 +82,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->cart->add('B', array(), 4.14, 1);
 
         $item = $this->cart->get($a);
-        $this->assertEquals(3.14, $item->price, '', 0.001);
+        $this->assertEquals(3.14, $item->getPrice(), '', 0.001);
 
         try {
             // attempt to access an unknown item
@@ -133,8 +114,8 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(6, $this->cart->getTotal());
 
-        $item = $this->cart->get($a);
-        $this->assertEquals('y', $item->data['x']);
+        $data = $this->cart->get($a)->getData();
+        $this->assertEquals('y', $data['x']);
 
         $this->cart->update($a, -1);
         $this->assertEquals(1, $this->cart->count());
@@ -156,7 +137,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         /** @var CartItem $item */
         $item = $this->cart->get($a);
         try {
-            $item->quantity = -1;
+            $item->setQuantity(-1);
 
             $this->fail('Quantity should not be negative');
         } catch (InvalidQuantityException $e) {

@@ -5,64 +5,115 @@ namespace maldoinc\utils\shopping;
 /**
  * Class ShoppingCartItem
  * @package maldoinc
- *
- * @property string rowId
- * @property string identifier
- * @property float quantity
- * @property float price
- * @property array data
  */
 class CartItem
 {
-    protected $attr = array(
-        'rowId'      => null,
-        'identifier' => null,
-        'quantity'   => null,
-        'price'      => null,
-        'data'       => null
-    );
+    /** @var string */
+    protected $rowId;
 
-    public function __construct($rowid, $identifier, $quantity, $price, $data)
+    /** @var string */
+    protected $identifier;
+
+    /** @var double */
+    protected $quantity;
+
+    /** @var double */
+    protected $price;
+
+    /** @var array */
+    protected $data;
+
+    public function __construct($rowId, $identifier, $quantity, $price, $data)
     {
-        $this->rowId = $rowid;
+        $this->rowId = $rowId;
         $this->identifier = $identifier;
-        $this->quantity = $quantity;
+        $this->setQuantity($quantity);
         $this->price = $price;
         $this->data = $data;
     }
 
-    public function __get($name)
+    /**
+     * @return string
+     */
+    public function getRowId()
     {
-        $this->checkProp($name);
-
-        return $this->attr[$name];
+        return $this->rowId;
     }
 
-    public function __set($name, $val)
+    /**
+     * @param string $rowId
+     */
+    public function setRowId($rowId)
     {
-        $this->checkProp($name);
+        $this->rowId = $rowId;
+    }
 
-        if ($name === 'quantity' && (float)$val <= 0) {
-            throw new exceptions\InvalidQuantityException(sprintf("Invalid quantity: %.2f", $val));
+    /**
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param string $identifier
+     */
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * @return float
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param float $quantity
+     * @throws exceptions\InvalidQuantityException
+     */
+    public function setQuantity($quantity)
+    {
+        if ($quantity < 0) {
+            throw new exceptions\InvalidQuantityException(sprintf("Invalid quantity: %.2f", $quantity));
         }
 
-        $this->attr[$name] = $val;
+        $this->quantity = $quantity;
     }
 
-    protected function checkProp($name)
+    /**
+     * @return float
+     */
+    public function getPrice()
     {
-        if (!$this->hasProp($name)) {
-            throw new exceptions\InvalidPropertyException(sprintf("Invalid property: %s on class %s", $name, __CLASS__));
-        }
+        return $this->price;
     }
 
-    protected function hasProp($name)
+    /**
+     * @param float $price
+     */
+    public function setPrice($price)
     {
-        return array_key_exists($name, $this->attr);
+        $this->price = $price;
     }
 
-    public function __isset($name)
+    /**
+     * @return array
+     */
+    public function getData()
     {
-        return isset($this->attr[$name]);
+        return $this->data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
     }
 }

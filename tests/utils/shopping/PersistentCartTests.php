@@ -16,10 +16,10 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
         $mgr = new SessionManager($this->mock, $key);
 
         return array(
-            array(null, function () use ($f) {
+            array(function () use ($f) {
                 return new PersistentCart(new FilePersistenceStrategy($f));
             }),
-            array(null, function () use ($mgr, $key) {
+            array(function () use ($mgr, $key) {
                 return new PersistentCart(new SessionPersistenceStrategy($mgr, $key));
             })
         );
@@ -28,7 +28,7 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider sessionPersistenceDataProvider
      */
-    public function testSessionPersistence($actual, $factory)
+    public function testSessionPersistence($factory)
     {
         /** @var $a PersistentCart */
         $a = $factory();
@@ -41,7 +41,7 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($a->getTotal(), $b->getTotal());
 
         $item = $b->get($rowid);
-        $this->assertEquals($rowid, $item->rowId);
+        $this->assertEquals($rowid, $item->getRowId());
 
         $b->update($rowid, 10);
         $this->assertEquals(10, $b->getTotal());

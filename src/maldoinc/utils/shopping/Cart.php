@@ -89,7 +89,7 @@ class Cart implements \Countable
     public function setItems($items)
     {
         foreach ($items as $item) {
-            $this->items[$item->rowId] = $item;
+            $this->items[$item->getRowId()] = $item;
         }
     }
 
@@ -111,7 +111,7 @@ class Cart implements \Countable
     {
         return array_reduce($this->items, function ($carry, $item) {
             /** @var $item CartItem */
-            return $carry + $item->price * $item->quantity;
+            return $carry + $item->getPrice() * $item->getQuantity();
         });
     }
 
@@ -126,7 +126,7 @@ class Cart implements \Countable
      */
     public function add($identifier, $data, $price, $qty = 1.0)
     {
-        $rowid = uniqid($identifier);
+        $rowid = uniqid($identifier, false);
         $this->items[$rowid] = new CartItem($rowid, $identifier, $qty, $price, $data);
 
         return $rowid;
@@ -139,6 +139,7 @@ class Cart implements \Countable
      * @param $qty
      * @param array $data
      * @throws ItemNotFoundException
+     * @throws exceptions\InvalidQuantityException
      */
     public function update($rowid, $qty, $data = null)
     {
@@ -150,9 +151,9 @@ class Cart implements \Countable
             return;
         }
 
-        $this->items[$rowid]->quantity = $qty;
+        $this->items[$rowid]->setQuantity($qty);
         if ($data !== null) {
-            $this->items[$rowid]->data = $data;
+            $this->items[$rowid]->setData($data);
         }
     }
 

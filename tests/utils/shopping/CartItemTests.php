@@ -21,7 +21,7 @@ class CartItemTests extends PHPUnit_Framework_TestCase
         $item->setRowId('SKU123ROWID');
         $item->setVatPercent(10);
         $item->setQuantity(14);
-        $item->setData(['size' => 'L']);
+        $item->setData(array('size' => 'L'));
         $item->setIdentifier('NEWSKU');
         $item->setVatIncluded(false);
 

@@ -23,9 +23,9 @@ class CartItem
     /** @var array */
     protected $data;
 
-    public function __construct($rowId, $identifier, $quantity, $price, $data)
+    public function __construct($identifier, $price, $quantity = 1, $data = array())
     {
-        $this->rowId = $rowId;
+        $this->rowId = uniqid($identifier, false);
         $this->identifier = $identifier;
         $this->setQuantity($quantity);
         $this->price = $price;

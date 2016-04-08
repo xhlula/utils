@@ -1,6 +1,7 @@
 <?php
 
 use maldoinc\utils\session\SessionManager;
+use maldoinc\utils\shopping\CartItem;
 use maldoinc\utils\shopping\persistence\FilePersistenceStrategy;
 use maldoinc\utils\shopping\persistence\SessionPersistenceStrategy;
 use maldoinc\utils\shopping\PersistentCart;
@@ -32,7 +33,7 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         /** @var $a PersistentCart */
         $a = $factory();
-        $rowid = $a->add('A', array(), 1, 2);
+        $rowid = $a->add(new CartItem('A', 1, 2));
 
         /** @var $b PersistentCart */
         $b = $factory();

@@ -42,9 +42,9 @@ class PersistentCart extends Cart
         $this->intf->clear();
     }
 
-    public function add($identifier, $data, $price, $qty = 1.0)
+    public function add(CartItem $item)
     {
-        $rowid = parent::add($identifier, $data, $price, $qty);
+        $rowid = parent::add($item);
         $this->save();
 
         return $rowid;

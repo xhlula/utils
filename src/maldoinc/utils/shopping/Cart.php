@@ -116,21 +116,11 @@ class Cart implements \Countable
         });
     }
 
-    /**
-     * Adds or updates a product in the shopping cart
-     *
-     * @param mixed $identifier
-     * @param array $data
-     * @param float $price
-     * @param float $qty
-     * @return string added item rowid
-     */
-    public function add($identifier, $data, $price, $qty = 1.0)
+    public function add(CartItem $item)
     {
-        $rowid = uniqid($identifier, false);
-        $this->items[$rowid] = new CartItem($rowid, $identifier, $qty, $price, $data);
+        $this->items[$item->getRowId()] = $item;
 
-        return $rowid;
+        return $item->getRowId();
     }
 
     /**

@@ -18,8 +18,10 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     public function testClear()
     {
         $cart = new Cart();
-        $cart->add('AB12', array(), 100);
-        $cart->add('AB123', array(), 100);
+
+        $cart->add(new CartItem('AB123', 100));
+        $cart->add(new CartItem('AB123', 100));
+
         $cart->clear();
 
         $this->assertCount(0, $cart);
@@ -29,8 +31,8 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         $this->cart->clear();
 
-        $this->cart->add('AB12', array(), 100);
-        $this->cart->add('ABC', array(), 1001);
+        $this->cart->add(new CartItem('AB12', 100));
+        $this->cart->add(new CartItem('ABC', 1001));
 
         $items = $this->cart->filter(function(CartItem $item) {
             return $item->getPrice() === 1001;
@@ -44,10 +46,10 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         $this->cart->clear();
 
-        $this->cart->add('AB12', array(), 100);
+        $this->cart->add(new CartItem('AB12', 100));
         $this->assertEquals($this->cart->getTotal(), 100);
 
-        $this->cart->add('AB12', array(), 1000, 2);
+        $this->cart->add(new CartItem('AB12', 1000, 2));
         $this->assertEquals($this->cart->getTotal(), 2100);
     }
 
@@ -68,7 +70,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         $this->cart->clear();
 
-        $this->cart->add('A', array(), 3.14, 1);
+        $this->cart->add(new CartItem('A', 3.14));
         $items = $this->cart->getItems();
 
         $this->assertEquals(true, reset($items) instanceof CartItem);
@@ -78,8 +80,8 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         $this->cart->clear();
 
-        $a = $this->cart->add('A', array(), 3.14, 1);
-        $this->cart->add('B', array(), 4.14, 1);
+        $a = $this->cart->add(new CartItem('A', 3.14));
+        $this->cart->add(new CartItem('A', 4.14, 1));
 
         $item = $this->cart->get($a);
         $this->assertEquals(3.14, $item->getPrice(), '', 0.001);
@@ -97,7 +99,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     public function testAddInvalidQty()
     {
         try {
-            $this->cart->add('X', array(), 1, -1);
+            $this->cart->add(new CartItem('X', 1, -1));
             $this->fail('Should throw exception');
         } catch(InvalidQuantityException $e) {
             $this->assertEquals(true, true);
@@ -107,8 +109,8 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     public function testUpdate()
     {
         $this->cart->clear();
-        $a = $this->cart->add('A', array(), 1, 1);
-        $this->cart->add('B', array(), 3, 1);
+        $a = $this->cart->add(new CartItem('A', 1));
+        $this->cart->add(new CartItem('B', 3, 1));
 
         $this->cart->update($a, 3, array('x' => 'y'));
 
@@ -132,7 +134,7 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         $this->cart->clear();
 
-        $a = $this->cart->add('A', array(), 3.14, 1);
+        $a = $this->cart->add(new CartItem('A', 3.14, 1));
 
         /** @var CartItem $item */
         $item = $this->cart->get($a);
@@ -150,9 +152,9 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     {
         $this->cart->clear();
 
-        $this->cart->add(101, array(), 100, 1.5);
-        $first = $this->cart->add('XXYZ', array(), 100, 1.5);
-        $this->cart->add('ITEMCODE', array(), 100, 1.5);
+        $this->cart->add(new CartItem(101, 100, 1.5));
+        $first = $this->cart->add(new CartItem('XXYZ', 100, 1.5));
+        $this->cart->add(new CartItem('ITEMCODE', 100, 1.5));
 
         $this->cart->remove($first);
         $this->assertEquals($this->cart->count(), 2);

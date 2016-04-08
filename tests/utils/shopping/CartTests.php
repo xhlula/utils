@@ -109,25 +109,22 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
     public function testUpdate()
     {
         $this->cart->clear();
-        $a = $this->cart->add(new CartItem('A', 1));
-        $this->cart->add(new CartItem('B', 3, 1));
 
-        $this->cart->update($a, 3, array('x' => 'y'));
+        $itemA = new CartItem('A', 1);
+        $itemB = new CartItem('B', 3, 1);
+
+        $a = $this->cart->add($itemA);
+        $this->cart->add($itemB);
+
+        $itemA->setQuantity(3);
+        $itemA->setData(array('x' => 'y'));
+
+        $this->cart->update($itemA);
 
         $this->assertEquals(6, $this->cart->getTotal());
 
         $data = $this->cart->get($a)->getData();
         $this->assertEquals('y', $data['x']);
-
-        $this->cart->update($a, -1);
-        $this->assertEquals(1, $this->cart->count());
-
-        try {
-            $this->cart->update('OOPS', 1234);
-            $this->fail('Should throw exception');
-        } catch(ItemNotFoundException $e) {
-            $this->assertEquals(true, true);
-        }
     }
 
     public function testQuantity()

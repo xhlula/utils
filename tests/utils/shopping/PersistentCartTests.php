@@ -44,7 +44,8 @@ class PersistentShoppingCartTests extends PHPUnit_Framework_TestCase
         $item = $b->get($rowid);
         $this->assertEquals($rowid, $item->getRowId());
 
-        $b->update($rowid, 10);
+        $item->setQuantity(10);
+        $b->update($item);
         $this->assertEquals(10, $b->getTotal());
         $b->remove($rowid);
         $this->assertEquals(0, $b->count());

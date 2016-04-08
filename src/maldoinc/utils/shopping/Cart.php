@@ -126,26 +126,14 @@ class Cart implements \Countable
     /**
      * Updates an item
      *
-     * @param $rowid
-     * @param $qty
-     * @param array $data
+     * @param CartItem $item
      * @throws ItemNotFoundException
-     * @throws exceptions\InvalidQuantityException
      */
-    public function update($rowid, $qty, $data = null)
+    public function update(CartItem $item)
     {
-        $this->checkRowid($rowid);
+        $this->checkRowid($item->getRowId());
 
-        if ($qty <= 0) {
-            $this->remove($rowid);
-
-            return;
-        }
-
-        $this->items[$rowid]->setQuantity($qty);
-        if ($data !== null) {
-            $this->items[$rowid]->setData($data);
-        }
+        $this->items[$item->getRowId()] = $item;
     }
 
     /**

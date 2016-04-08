@@ -64,9 +64,9 @@ class PersistentCart extends Cart
         $this->save();
     }
 
-    public function update($rowid, $qty, $data = null)
+    public function update(CartItem $item)
     {
-        parent::update($rowid, $qty, $data);
+        parent::update($item);
         $this->save();
     }
 }

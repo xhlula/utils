@@ -122,20 +122,7 @@ class Cart implements \Countable
 
         return $item->getRowId();
     }
-
-    /**
-     * Updates an item
-     *
-     * @param CartItem $item
-     * @throws ItemNotFoundException
-     */
-    public function update(CartItem $item)
-    {
-        $this->checkRowid($item->getRowId());
-
-        $this->items[$item->getRowId()] = $item;
-    }
-
+    
     /**
      * Removes the product with the specified identifier from the shopping cart
      *

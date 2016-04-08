@@ -53,7 +53,7 @@ class PersistentCart extends Cart
     /**
      * Save the shopping cart data
      */
-    protected function save()
+    public function save()
     {
         $this->intf->save(serialize($this->getItems()));
     }
@@ -61,12 +61,6 @@ class PersistentCart extends Cart
     public function remove($rowid)
     {
         parent::remove($rowid);
-        $this->save();
-    }
-
-    public function update(CartItem $item)
-    {
-        parent::update($item);
         $this->save();
     }
 }

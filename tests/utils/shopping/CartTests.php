@@ -119,8 +119,6 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $itemA->setQuantity(3);
         $itemA->setData(array('x' => 'y'));
 
-        $this->cart->update($itemA);
-
         $this->assertEquals(6, $this->cart->getTotal());
 
         $data = $this->cart->get($a)->getData();

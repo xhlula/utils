@@ -9,7 +9,9 @@
             <file>tests/utils/session/SessionManagerTest.php</file>
 
             <file>tests/utils/shopping/CartTests.php</file>
+            <file>tests/utils/shopping/CartItemTests.php</file>
             <file>tests/utils/shopping/PersistentCartTests.php</file>
+            <file>tests/utils/shopping/PriceCalculatorTests.php</file>
 
             <file>tests/utils/pagination/PaginationTest.php</file>
             <file>tests/utils/pagination/SimplePaginationTest.php</file>

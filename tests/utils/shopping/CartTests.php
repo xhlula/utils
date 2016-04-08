@@ -156,4 +156,15 @@ class ShoppingCartTests extends PHPUnit_Framework_TestCase
         $this->cart->remove($first);
         $this->assertEquals($this->cart->count(), 2);
     }
+    
+    public function testCartItemPriceDetails()
+    {
+        $item = new CartItem('A001', 10, 1);
+        $item->setVatPercent(20);
+
+        $this->assertEquals(8.333, $item->getPriceInfo()->getBasePrice(), '', 0.001);
+        $this->assertEquals(1.667, $item->getPriceInfo()->getVat(), '', 0.001);
+        $this->assertEquals(10, $item->getPriceInfo()->getTotalPrice());
+        $this->assertEquals(1, $item->getPriceInfo()->getQuantity());
+    }
 }

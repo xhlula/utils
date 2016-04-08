@@ -23,12 +23,18 @@ class CartItem
     /** @var array */
     protected $data;
 
-    public function __construct($identifier, $price, $quantity = 1, $data = array())
+    /** @var double */
+    protected $vatPercent = 0;
+
+    /** @var bool */
+    protected $vatIncluded = true;
+
+    public function __construct($identifier, $price, $quantity = 1, $data = [])
     {
         $this->rowId = uniqid($identifier, false);
         $this->identifier = $identifier;
-        $this->setQuantity($quantity);
         $this->price = $price;
+        $this->setQuantity($quantity);
         $this->data = $data;
     }
 
@@ -115,5 +121,46 @@ class CartItem
     public function setData($data)
     {
         $this->data = $data;
+    }
+
+    /**
+     * @return float
+     */
+    public function getVatPercent()
+    {
+        return $this->vatPercent;
+    }
+
+    /**
+     * @param float $vatPercent
+     * @return CartItem
+     */
+    public function setVatPercent($vatPercent)
+    {
+        $this->vatPercent = $vatPercent;
+        return $this;
+    }
+
+    /**
+     * @param boolean $vatIncluded
+     * @return CartItem
+     */
+    public function setVatIncluded($vatIncluded)
+    {
+        $this->vatIncluded = $vatIncluded;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVatIncluded()
+    {
+        return $this->vatIncluded;
+    }
+
+    public function getPriceInfo()
+    {
+        return new PriceCalculator($this->price, $this->quantity, $this->vatPercent, $this->vatIncluded);
     }
 }

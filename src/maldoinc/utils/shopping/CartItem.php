@@ -29,7 +29,7 @@ class CartItem
     /** @var bool */
     protected $vatIncluded = true;
 
-    public function __construct($identifier, $price, $quantity = 1, $data = [])
+    public function __construct($identifier, $price, $quantity = 1, $data = array())
     {
         $this->rowId = uniqid($identifier, false);
         $this->identifier = $identifier;

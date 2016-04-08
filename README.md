@@ -58,7 +58,7 @@ Allows management of a shopping cart (no way!)
 The add method returns a unique string which can be used to access this specific item in the future.
 The data property is meant to be used as a means to store any information related to the added item.
 ```php
-$rowid = $cart->add($item_identifier, /* $data */ ['size' => 'M'], $pice, $quantity);
+$rowid = $cart->add(new CartItem('SKU', 10 /* price */, 15 /* quantity */));
 ```
 
 
@@ -71,12 +71,7 @@ $cart->remove($rowid);
 
 ##### Update an item
 
-Update an item's rowid or data
-
-```php
-$cart->update($rowid, $new_quantity); // this will only update the quantity
-
-$cart->update($rowid, $new_quantity, ['size' => 'L']); // will also update data
+To update an item, simply change it's properties.
 ```
 
 ##### Get an item from the shopping cart
@@ -105,7 +100,7 @@ Out of the box the following persistence methods are supported
 * Session based storage via the `SessionPersistenceStrategy` class
 * File based sessions via the `FilePersistenceStrategy` class
 
-You can implement your own storage mechanisms by implementing the persistence interface and passing the class to the `Cart` constructor.
+You can implement your own storage mechanisms by implementing the persistence interface and passing the class to the `Cart` constructor. To persist data after updating an item the method `save` must be manually invoked.
 
 ```php
 // session based persistence
